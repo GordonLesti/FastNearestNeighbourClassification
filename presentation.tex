@@ -21,11 +21,15 @@
  \begin{block}{Gegeben}
    \begin{itemize}
     \item Menge $\mathbb{U}$
+    \pause
     \item Abstandsmaß $d$ auf $\mathbb{U}$, mit $d: \mathbb{U} \times \mathbb{U} \to \mathbb{R}$
+    \pause
     \item Menge $S \subset \mathbb{U}$ der Größe $n$
+    \pause
     \item Anfragepunkt $q \in \mathbb{U}$
   \end{itemize}
  \end{block}
+ \pause
  \begin{block}{Gesucht}
     \begin{itemize}
      \item $a \in S$, mit $d(q, a) \le d(q, x)$ f\"ur alle $x \in S$
@@ -53,6 +57,7 @@
  \frametitle{Vollsuche}
  \begin{itemize}
   \item Berechne $d(q, x)$ f\"ur alle $x \in S$
+  \pause
   \item W\"ahle $a \in S$, mit $d(q, a) \le d(q, x)$ f\"ur alle $x \in S$
  \end{itemize}
 \end{frame}
@@ -431,9 +436,11 @@
  \begin{block}{Vorteile}
   \begin{itemize}
    \item Einfache Implementierung
+   \pause
    \item Funktioniert auch in Nicht-Metrischen R\"aumen
   \end{itemize}
  \end{block}
+ \pause
  \begin{block}{Nachteile}
   \begin{itemize}
    \item Hohe Laufzeiten gerade bei großen Datenmengen und h\"oherdimensionalen R\"aumen
@@ -446,42 +453,73 @@
   $d:X \times X \to \mathbb{R}$, $(x, y) \mapsto d(x, y)$\\
   mit folgenden Eigenschaften:
  \begin{enumerate}
+ \pause
   \item $d(x, y) = 0$ genau dann, wenn $x=y$.
+  \pause
   \item Symmetrie: F\"ur alle $x, y \in X$ gilt $d(x, y) = d(y, x)$.
+  \pause
   \item Dreiecksungleichung: F\"ur alle $x, y, z \in X$ gilt $d(x, z) \le d(x, y) + d(y,z)$
  \end{enumerate}
  \flushright{\tiny{[Forster, 2006]}}
 \end{frame}
 
 \begin{frame}{Dreiecksungleichung}
+  \begin{center}
+    \begin{tikzpicture}[%
+    scale=1.0,
+    ]
+    \clip (-4.15325,-0.785024) rectangle (0.889982,2.09932);
+    \filldraw [color={rgb:red,0;green,0;blue,255}] (0.387719,-0.137281) circle (2.5pt );
+    \filldraw [color={rgb:red,0;green,0;blue,255}] (-3.46333,0.27222) circle (2.5pt );
+    \filldraw [color={rgb:red,0;green,0;blue,255}] (-0.413857,1.98864) circle (2.5pt );
+    \draw[color={rgb:red,0;green,0;blue,255}, line width=0.5pt, solid] (-3.46333,0.27222) -- (-0.413857,1.98864);
+    \draw[color={rgb:red,0;green,0;blue,255}, line width=0.5pt, solid] (-3.46333,0.27222) -- (0.387719,-0.137281);
+    \draw[color={rgb:red,0;green,0;blue,255}, line width=0.5pt, solid] (-0.413857,1.98864) -- (0.387719,-0.137281);
+    \node at (0.679006,-0.454707) {s};
+    \node at (-0.131283,1.69735) {p};
+    \node at (-3.18076,-0.163507) {q};
+    \end{tikzpicture}
+  \end{center}
+
  \textbf{Lemma} F\"ur beliebige $q, s, p \in \mathbb{U}$, $r \in \mathbb{R}$ und $P \subset \mathbb{U}$ gilt:
  \begin{enumerate}
-  \item $|d(p, q) - d(p, s)| \le d(q, s) \le d(p, q) + d(p, s)$
-  \item $d(q, s) \ge d_P(q, s) := \max_{p \in P}|d(p, q) - d(p, s)|$
-  \item $d(p, s) > d(p, q) + r \vee d(p, s) < d(p, q) -r \Rightarrow d(q, s) > r$
-  \item $d(p, s) \ge 2 \cdot d(p, q) \Rightarrow d(q, s) \ge d(q, p)$
+ \pause
+  \item \label{ineq:1}$|d(p, q) - d(p, s)| \le d(q, s) \le d(p, q) + d(p, s)$
+  \pause
+  \item \label{ineq:2}$d(q, s) \ge d_P(q, s) := \max_{p \in P}|d(p, q) - d(p, s)|$
+  \pause
+  \item \label{ineq:3}$d(p, s) > d(p, q) + r \vee d(p, s) < d(p, q) -r \Rightarrow d(q, s) > r$
+  \pause
+  \item \label{ineq:4}$d(p, s) \ge 2 \cdot d(p, q) \Rightarrow d(q, s) \ge d(q, p)$
  \end{enumerate}
  \flushright{\tiny{[Clarkson, 2005]}}
 \end{frame}
 
-\subsection{Orchard’s Algorithm}
-\begin{frame}{Orchard’s Algorithm}
+\subsection{Orchard’s Algorithmus}
+\begin{frame}{Orchard’s Algorithmus}
  \begin{itemize}
-  \item Erstelle Liste f\"ur alle Punkt $p \in S$ mit allen Punkten $x \in S$, aufsteigenden nach ihrer Distanz
+  \item Erstelle Liste f\"ur alle Punkt $p \in S$ mit allen Punkten $x \in S$, aufsteigend nach ihrer Distanz
+  \pause
   \item W\"ahle zufälligen Punkt $c \in S$ als initialen Kandidaten
+  \pause
   \item Berechne $d(c, q)$
+  \pause
   \item Gehe Liste von $c$ entlange
+  \pause
   \item Wenn aktueller Punkt näher an $q$ als $c$, nimm aktuellen Punkt für $c$
+  \pause
   \item Abbruch, wenn
     \begin{itemize}
       \item die Liste komplett abgelaufen ist, oder
-      \item $d(c, s) > 2 \cdot d(c, q)$ f\"ur aktuelles Element aus der Liste
+      \item $d(c, s) > 2 \cdot d(c, q)$ f\"ur aktuelles Element aus der Liste (Dreiecksungleichung~\ref{ineq:4})
     \end{itemize}
+   \pause
+   \item Sonst ist $c$ nächster Nachbar
  \end{itemize}
 \end{frame}
 
 %Beispiel2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     $\mathbb{U} = \mathbb{R}^2$
@@ -528,8 +566,25 @@
  \end{columns}
 \end{frame}
 
+%Beispiel2 Abstand
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+  \begin{block}{Abst\"ande}
+  \begin{center}
+    \begin{tabular}{r|ccccc}
+      & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$\\
+      \hline
+      $x_1$ & 0 & $\approx 4.123$ & $\approx 9.899$ & $5$ & $\approx 6.083$\\
+      $x_2$ & $\approx 4.123$ & 0 & $\approx 6.708$ & $\approx 3.162$ & $\approx 7.071$\\
+      $x_3$ & $\approx 9.899$ & $\approx 6.708$ & 0 & $5$ & $\approx 8.062$\\
+      $x_4$ & $5$ & $\approx 3.162$ & $5$ & 0 & $\approx 4.472$\\
+      $x_5$ & $\approx 6.083$ & $\approx 7.071$ & $\approx 8.062$ & $\approx 4.472$ & 0\\
+    \end{tabular}
+  \end{center}
+  \end{block}
+\end{frame}
+
 %Beispiel2 Listen
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{block}{Listen}
@@ -580,7 +635,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_3 und s=x_4
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -628,7 +683,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_3 und s=x_4
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -681,7 +736,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -729,7 +784,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -780,13 +835,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
      \item Setze $c:=x_4$ und $s:= x_2$
      \item Da $2.828 \approx d(c, q) < d(s, q) \approx 3.162$, kein neues $c$
-     \item Da $3.162 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, $x_4$ kein Abbruch
+     \item Da $3.162 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, kein Abbruch
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -833,7 +888,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_5
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -880,7 +935,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_5
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -931,13 +986,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_5
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
      \item Setze $s:= x_5$
      \item Da $2.828 \approx d(c, q) < d(s, q) \approx 4.472$, kein neues $c$
-     \item Da $4.472 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, $x_4$ kein Abbruch
+     \item Da $4.472 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, kein Abbruch
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -984,7 +1039,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_1
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -1030,7 +1085,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_1
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -1080,7 +1135,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -1128,7 +1183,7 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
@@ -1180,13 +1235,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_2
-\begin{frame}{Orchard’s Algorithm}{Beispiel}
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
      \item Setze $c:= x_1$ und $s:=x_2$
      \item Da $2.236 \approx d(c, q) < d(s, q) \approx 3.162$, kein neues $c$
-     \item Da $4.123 \approx d(c, s) < 2 \cdot d(c, q) \approx 4.472$, $x_4$ kein Abbruch
+     \item Da $4.123 \approx d(c, s) < 2 \cdot d(c, q) \approx 4.472$, kein Abbruch
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1231,6 +1286,206 @@
       \end{tikzpicture}
   \end{column}
  \end{columns}
+\end{frame}
+
+%Beispiel2 Wähle c=x_1 und s=x_4
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+ \begin{columns}[T]
+  \begin{column}{.35\textwidth}
+    \begin{itemize}
+     \item Setze $s:=x_4$
+    \end{itemize}
+  \end{column}
+  \begin{column}{.60\textwidth}
+     \begin{tikzpicture}[%
+      scale=0.6,
+      ]
+      \clip (-5.0,-5.0) rectangle (5.0,5.0);
+      \draw [help lines] (0,0) grid (6,5);
+      \draw [help lines] (-6,0) grid (0,5);
+      \draw [help lines] (0,-6) grid (6,0);
+      \draw [help lines] (-6,-6) grid (0,0);
+      \draw [color=black,->] (-5.0,0) -- (5.0,0);
+      \draw [color=black,->] (0,-5.0) -- (0,5.0);
+      
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
+      \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
+      
+      \filldraw [color=blue] (3,3) circle (2.5pt );
+      \filldraw [color=yellow] (3,3) circle (2.1pt );
+      \filldraw [color=blue] (-1,2) circle (2.5pt );
+      \filldraw [color=blue] (-4,-4) circle (2.5pt );
+      \filldraw [color=blue] (0,-1) circle (2.5pt );
+      \filldraw [color=white] (0,-1) circle (2.1pt );
+      \filldraw [color=blue] (4,-3) circle (2.5pt );
+      
+      \filldraw [color=red] (2,1) circle (2.5pt );
+      
+      \node at (3.3,2.7) {$x_1$};
+      \node at (-0.7,1.7) {$x_2$};
+      \node at (-3.7,-4.3) {$x_3$};
+      \node at (0.3,-1.3) {$x_4$};
+      \node at (4.3,-3.3) {$x_5$};
+      
+      \node at (2.3,0.7) {$q$};
+      \end{tikzpicture}
+  \end{column}
+ \end{columns}
+\end{frame}
+
+%Beispiel2 Wähle c=x_1 und s=x_4
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+ \begin{columns}[T]
+  \begin{column}{.35\textwidth}
+    \begin{itemize}
+     \item Setze $s:=x_4$
+     \item Da $2.236 \approx d(c, q) < d(s, q) \approx 2.828$, kein neues $c$
+    \end{itemize}
+  \end{column}
+  \begin{column}{.60\textwidth}
+     \begin{tikzpicture}[%
+      scale=0.6,
+      ]
+      \clip (-5.0,-5.0) rectangle (5.0,5.0);
+      \draw [help lines] (0,0) grid (6,5);
+      \draw [help lines] (-6,0) grid (0,5);
+      \draw [help lines] (0,-6) grid (6,0);
+      \draw [help lines] (-6,-6) grid (0,0);
+      \draw [color=black,->] (-5.0,0) -- (5.0,0);
+      \draw [color=black,->] (0,-5.0) -- (0,5.0);
+      
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
+      \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
+      
+      \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
+      \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
+      
+      \filldraw [color=blue] (3,3) circle (2.5pt );
+      \filldraw [color=yellow] (3,3) circle (2.1pt );
+      \filldraw [color=blue] (-1,2) circle (2.5pt );
+      \filldraw [color=blue] (-4,-4) circle (2.5pt );
+      \filldraw [color=blue] (0,-1) circle (2.5pt );
+      \filldraw [color=white] (0,-1) circle (2.1pt );
+      \filldraw [color=blue] (4,-3) circle (2.5pt );
+      
+      \filldraw [color=red] (2,1) circle (2.5pt );
+      
+      \node at (3.3,2.7) {$x_1$};
+      \node at (-0.7,1.7) {$x_2$};
+      \node at (-3.7,-4.3) {$x_3$};
+      \node at (0.3,-1.3) {$x_4$};
+      \node at (4.3,-3.3) {$x_5$};
+      
+      \node at (2.3,0.7) {$q$};
+      \end{tikzpicture}
+  \end{column}
+ \end{columns}
+\end{frame}
+
+%Beispiel2 Wähle c=x_1 und s=x_4
+\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+ \begin{columns}[T]
+  \begin{column}{.35\textwidth}
+    \begin{itemize}
+     \item Setze $s:=x_4$
+     \item Da $2.236 \approx d(c, q) < d(s, q) \approx 2.828$, kein neues $c$
+     \item Da $5 \approx d(c, s) > 2 \cdot d(c, q) \approx 4.472$, \textcolor{green}{Abbruch}
+    \end{itemize}
+  \end{column}
+  \begin{column}{.60\textwidth}
+     \begin{tikzpicture}[%
+      scale=0.6,
+      ]
+      \clip (-5.0,-5.0) rectangle (5.0,5.0);
+      \draw [help lines] (0,0) grid (6,5);
+      \draw [help lines] (-6,0) grid (0,5);
+      \draw [help lines] (0,-6) grid (6,0);
+      \draw [help lines] (-6,-6) grid (0,0);
+      \draw [color=black,->] (-5.0,0) -- (5.0,0);
+      \draw [color=black,->] (0,-5.0) -- (0,5.0);
+      
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
+      \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
+      \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
+      
+      \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
+      \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
+      \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (0,-1);
+      
+      \filldraw [color=blue] (3,3) circle (2.5pt );
+      \filldraw [color=yellow] (3,3) circle (2.1pt );
+      \filldraw [color=blue] (-1,2) circle (2.5pt );
+      \filldraw [color=blue] (-4,-4) circle (2.5pt );
+      \filldraw [color=blue] (0,-1) circle (2.5pt );
+      \filldraw [color=white] (0,-1) circle (2.1pt );
+      \filldraw [color=blue] (4,-3) circle (2.5pt );
+      
+      \filldraw [color=red] (2,1) circle (2.5pt );
+      
+      \node at (3.3,2.7) {$x_1$};
+      \node at (-0.7,1.7) {$x_2$};
+      \node at (-3.7,-4.3) {$x_3$};
+      \node at (0.3,-1.3) {$x_4$};
+      \node at (4.3,-3.3) {$x_5$};
+      
+      \node at (2.3,0.7) {$q$};
+      \end{tikzpicture}
+  \end{column}
+ \end{columns}
+\end{frame}
+
+% Vor- und Nachteile
+\begin{frame}{Orchard’s Algorithmus}{Vor- und Nachteile}
+ \begin{block}{Vorteile}
+  \begin{itemize}
+   \item Schneller als Vollsuche
+  \end{itemize}
+ \end{block}
+ \pause
+ \begin{block}{Nachteile}
+  \begin{itemize}
+   \item Vorverarbeitung kostet viel Speicher und Rechenaufwand
+  \end{itemize}
+ \end{block}
+ \pause
+ \begin{block}{Verfeinerung}
+  \begin{itemize}
+   \item Schon durchwanderte Punkte sollten übersprungen werden
+  \end{itemize}
+ \end{block}
+\end{frame}
+
+\subsection{Annulus Verfahren}
+\begin{frame}{Annulus Verfahren}
+ \begin{itemize}
+  \item Erstelle eine Liste für beliebigen Punkt $p^* \in S$ mit allen Punkten $x \in S$, aufsteigend nach ihrer Distanz
+  \pause
+  \item Wähle beliebigen Kandidaten $c \in S$
+  \pause
+  \item Bewege dich alternierend von $p^*$ weg und wieder hin
+  \pause
+  \item Wenn aktueller Punkt $s$ näher an $q$ als $c$, setze $c:= s$
+  \pause
+  \item Aktueller Punkt $s$ unter $c$:
+  \begin{itemize}
+   \item Wenn $d(p^*, s) < d(p^*, q) - d(c, q)$, können alle Punkte unter $s$ ignoriert werden (Dreiecksungleichung~\ref{ineq:3})
+  \end{itemize}
+  \pause
+  \item Aktueller Punkt $s$ über $c$:
+  \begin{itemize}
+   \item Wenn $d(p^*, s) > d(p*, q) + d(c, q)$, können alle Punkte über $s$ ignoriert werden (Dreiecksungleichung~\ref{ineq:3})
+  \end{itemize}
+  \pause
+  \item Wenn ganze Liste durchlaufen ist $c$ nächster Nachbar
+ \end{itemize}
 \end{frame}
 
 \section{Quellen}
