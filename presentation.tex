@@ -41,12 +41,13 @@
 \begin{frame}
  \frametitle{Anwendung}
  \begin{itemize}
- \item density estimation
- \item pattern recognition
- \item object recognition
- \item data clustering
- \item function approximation
- \item vector quantization
+ \item Mustererkennung
+ \item Statistischen Klassifikationsverfahren
+ \item Bildbearbeitung
+ \item Kodierungstheorie
+ \item Datenkompression
+ \item Empfehlungssystemen
+ \item $\dots$
 \end{itemize}
 \end{frame}
 
@@ -1452,7 +1453,7 @@
  \pause
  \begin{block}{Nachteile}
   \begin{itemize}
-   \item Vorverarbeitung kostet viel Speicher und Rechenaufwand
+   \item Preprocessing kostet viel Speicher und Rechenaufwand
   \end{itemize}
  \end{block}
  \pause
@@ -2109,6 +2110,51 @@
    \item Weniger Speicherverbrauch als Orchard’s Algorithmus
   \end{itemize}
  \end{block}
+\end{frame}
+
+\subsection{AESA}
+\begin{frame}{AESA}{Approximating and Eliminating Search Algorithm}
+ \begin{itemize}
+  \item Erste Matrix aus allen Abständen $d(x, y)$, mit $x, y \in S$
+  \pause
+  \item Jeder Punkt ist immer in einem der drei Statusse
+  \begin{itemize}
+   \item \textit{Bekannt}, $d(x, q)$ ist bekannt
+   \pause
+   \item \textit{Unbekannt}, nur $d_P(x, q)$ ist bekannt
+   \pause
+   \item \textit{Abgelehnt}, $d_P(x, q)$ ist größer als aktuell kleinster Abstand $r$
+  \end{itemize}
+  \pause
+  \item Alle $x \in S$ sind zum Anfang $Unbekannt$ und $d_P(x, q) = \infty$
+  \pause
+  \item Wiederhole bis alle $x \in S$ \textit{Bekannt} oder \textit{Abgelehnt}
+  \begin{enumerate}
+   \item Wähle \textit{Unbekannt}-en Punkt $x \in S$ mit kleinstem $d_P(x, q)$
+   \pause
+   \item Berechne $d(x,q)$, so das $x$ \textit{Bekannt} wird
+   \pause
+   \item Aktuallisiere den kleinsten Abstand $r$
+   \pause
+   \item Setze $P:= P \cup \{x\}$, aktuallisiere $d_P(x', q)$, wenn $x'$ \textit{Unbekannt} und markiere $x'$ \textit{Abgelehnt}, wenn $d_P(x', q) > r$
+  \end{enumerate}
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{LAESA}{\textit{Linear} Approximating and Eliminating Search Algorithm}
+ \begin{itemize}
+  \item Arbeitet mit einer Menge von \textit{pivot}-Elementen, anstelle einer Matrix
+  \pause
+  \item Läuft am besten, wenn die \textit{pivot}-Elemente stark separiert sind
+ \end{itemize}
+\end{frame}
+
+\section{Ausblick}
+\begin{frame}{Ausblick}
+ \begin{itemize}
+  \item Metrikbäume
+  \item \dots
+ \end{itemize}
 \end{frame}
 
 \section{Quellen}
