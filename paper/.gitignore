@@ -1,2 +1,6 @@
 example/
+*.aux
+*.log
+*.pdf
+*.tex.backup
 
