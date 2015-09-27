@@ -1,25 +1,87 @@
 \documentclass[deutsch,runningheads,a4paper]{llncs}
 
 \usepackage[utf8]{inputenc}
-\usepackage{url}
+\usepackage{amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, left=3cm, right=3cm, top=2.5cm, bottom=2cm]{geometry}
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\newcommand{\changefont}[3]{
+\fontfamily{#1} \fontseries{#2} \fontshape{#3} \selectfont}
+\changefont{ptm}{m}{n}
+\fontsize{12pt}{6pt}
 
 \begin{document}
+  \setcounter{tocdepth}{2}
+  \makeatletter
+  \renewcommand*\l@author[2]{}
+  \renewcommand*\l@title[2]{}
+  \makeatletter
   \title{Fast Nearest Neighbour Classification}
+  \subtitle{\textnormal{\small{Seminar\\Intelligente Software-Systeme\\Sommersemester 2015}\\\vspace{1\baselineskip} Stefan Fricke\\\vspace{15\baselineskip} Oktober 2015\\Betreuer: Stephan Spiegel\\\vspace{2\baselineskip}}}
   \titlerunning{Fast Nearest Neighbour Classification}
   
-  \author{Gordon Lesti}
+  \author{Gordon Lesti\\313249\\Studiengang: Informatik\\gordon.lesti@campus.tu-berlin.de}
   \authorrunning{Gordon Lesti}
   
-  \institute{Technische Universität Berlin,\\
-  Straße des 17. Juni 135, 10623 Berlin\\
-  \url{http://www.tu-berlin.de/}}
+  \institute{Technische Universität Berlin\\
+  Fakultät IV – Elektrotechnik und Informatik\\
+  Fachgebiet AOT\\
+  Prof. Dr. Sahin Albayrak}
   
   \maketitle
+  \newpage
+  \pagenumbering{roman}
   
+  \addcontentsline{toc}{section}{Zusammenfassung}
   \begin{abstract}
-   jo
+    Diese Seminararbeit befasst sich mit dem Problem der \textit{Nächster Nachbar Klassifikation}. Zur Lösung dieses
+    Problems werden grundlegende Algorithmen basierend auf der Dreiecksungleichung in metrischen Räumen vorgestellt und
+    verglichen. Dabei hat jeder Algorithmus die Aufgabe aus einer Menge $S$ das Element $a$ zu ermitteln, welches den
+    kleinsten Abstand zum Anfragepunkt $q$ hat. $S$ ist dabei eine endliche Teilmenge von $\mathbb{U}$ und $d$ das
+    Abstandsmaß auf $\mathbb{U}$.
+    \keywords{Nächster Nachbar Klassifikation, Dreiecksungleichung, Metrischer Raum}\\\vspace{4\baselineskip}
+    
+    \textbf{Plagiatserklärung}\\
+    Hiermit versichere ich, dass ich diese Seminararbeit selbstständig verfasst und keine anderen als die angegebenen
+    Quellen und Hilfsmittel benutzt habe. Die Stellen meiner Arbeit, die dem Wortlaut oder dem Sinn nach anderen Werken
+    entnommen sind, habe ich in jedem Fall unter Angabe der Quelle als Entlehnung kenntlich gemacht. Dasselbe gilt
+    sinngemaäß für Tabellen, Karten und Abbildungen. Diese Arbeit hat in dieser oder einer ähnlichen Form noch nicht im
+    Rahmen einer anderen Prüfung vorgelegen.
   \end{abstract}
   
+  \tableofcontents
+  \addcontentsline{toc}{section}{Inhaltsverzeichnis}
+  \newpage
+  \pagenumbering{arabic}
+  
   \section{Einleitung}
+    Das Problem der \textit{Nächster Nachbar Klassifikation} lässt sich recht leicht zusammen fassen. Gegeben ist eine
+    Menge $\mathbb{U}$ und ein Abstandsmaß $d$ auf $\mathbb{U}$ mit $d: \mathbb{U} \times \mathbb{U} \to \mathbb{R}$.
+    Des weiteren eine endliche Teilmenge $S \subset \mathbb{U}$ der Größe $n$ und ein Anfragepunkt $q \in \mathbb{U}$.
+    Gesucht ist der nächste Nachbar $a$ aus $S$, welcher minimalen Abstand zu $q$ hat. Also $a \in S$, mit
+    $d(q, a) \le d(q, x)$ f\"ur alle $x \in S$.
+    
+    Eine allgemeinere Form dieses Problems ist die \textit{k-Nächsten Nachbarn Klassifikation}. In dieser
+    Semesterarbeit wird somit der Spezialfall mit $k = 1$ betrachtet.
+  
+  \subsection{Vollsuche}
+    Die Vollsuche ist die einfachste Form um einen nächsten Nachbarn $a$ aus der Menge $S$ zu ermitteln.
+    Dabei wird für jedes Element $x \in S$ der Abstand $d(q, x)$ berechnet. Der nächste Nachbar zu $q$ ist das Element
+    mit dem kleinsten Abstand.
+    
+    Ein Vorteil der Vollsuche ist, dass die Implementierung sehr einfach ist. Des weiteren funktioniert dieser
+    Algorithmus auch in nicht metrischen Räumen. Der große Nachteil ist eindeutig die Laufzeit. Für jedes Element aus
+    $S$ muss der Abstand zum Anfragepunkt $q$ berechnet werden.
+    
+  \section{Algorithmen}
+    
+  \subsection{Orchard's Algorithmus}
+  
+  \subsection{Annulus Verfahren}
+  
+  \subsection{AESA}
 
 \end{document}

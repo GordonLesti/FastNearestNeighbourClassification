@@ -3,4 +3,5 @@ example/
 *.log
 *.pdf
 *.tex.backup
+*.toc
 
