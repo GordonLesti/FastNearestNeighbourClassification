@@ -4,4 +4,9 @@ example/
 *.pdf
 *.tex.backup
 *.toc
+*-blx.bib
+*.bbl
+*.bcf
+*.blg
+*.run.xml
 

@@ -1,9 +1,13 @@
 package de.dailab.fnnc.distance;
 
+import java.io.Serializable;
+
 /**
  * Class representing a vector in the euclidian space.
  */
-public class Vector implements DistanceComputable<Vector> {
+public class Vector implements Serializable{
+
+  private static final long serialVersionUID = 42L;
 
   /**
    * The values of the vector.
@@ -39,5 +43,28 @@ public class Vector implements DistanceComputable<Vector> {
       sum += Math.pow(this.values[i] - vector.values[i], 2);
     }
     return Math.sqrt(sum);
+  }
+
+  public String toString() {
+    String output = "<";
+    int lastIndex = this.values.length - 1;
+    for (int i = 0; i < lastIndex; i++) {
+      output += this.values[i] + ", ";
+    }
+    output += this.values[lastIndex] + ">";
+    return output;
+  }
+
+  public boolean equals(Object object) {
+    if (object instanceof Vector) {
+      Vector vector = (Vector) object;
+      for (int i = 0; i < this.values.length; i++) {
+        if (this.values[i] != vector.values[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 }

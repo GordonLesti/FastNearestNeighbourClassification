@@ -1,11 +1,11 @@
 package de.dailab.fncc.search;
 
 import junit.framework.TestCase;
-import de.dailab.fnnc.search.FullSearch;
+import de.dailab.fnnc.search.OrchardAlgorithmus;
 import de.dailab.fnnc.distance.Vector;
 import de.dailab.fnnc.framework.TestDataCreator;
 
-public class FullSearchTest extends TestCase {
+public class OrchardAlgorithmusTest extends TestCase {
 
   public void testGetNearestNeighbor() {
     double[] entries1 = {1.0, 2.0};
@@ -14,11 +14,13 @@ public class FullSearchTest extends TestCase {
     Vector vector2 = new Vector(entries2);
     double[] entries3 = {-1.0, -3.0};
     Vector vector3 = new Vector(entries3);
+    double[] entries4 = {-7, 8};
+    Vector vector4 = new Vector(entries4);
 
-    Vector[] vectorSet = {vector1, vector2};
-    FullSearch fsearch = new FullSearch();
-    fsearch.setVectors(vectorSet);
-    assertEquals(fsearch.getNearestNeighbor(vector3), vector2);
+    Vector[] vectorSet = {vector1, vector2, vector4};
+    OrchardAlgorithmus orchard = new OrchardAlgorithmus();
+    orchard.setVectors(vectorSet);
+    assertEquals(orchard.getNearestNeighbor(vector3), vector2);
   }
 
   public void testGetNearestNeighborS1000d50() {
@@ -36,8 +38,8 @@ public class FullSearchTest extends TestCase {
       -461315.0
     };
     Vector queryVector = new Vector(queryEntries);
-    FullSearch fsearch = new FullSearch();
-    fsearch.setVectors(vectors);
+    OrchardAlgorithmus orchard = new OrchardAlgorithmus();
+    orchard.setVectors(vectors);
     double[] nnEntries = {
       870784.0,
       53276.0,
@@ -51,6 +53,6 @@ public class FullSearchTest extends TestCase {
       -362347.0
     };
     Vector nearestNeighbor = new Vector(nnEntries);
-    assertEquals(fsearch.getNearestNeighbor(queryVector), nearestNeighbor);
+    assertEquals(orchard.getNearestNeighbor(queryVector), nearestNeighbor);
   }
 }
