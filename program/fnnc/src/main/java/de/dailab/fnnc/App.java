@@ -1,28 +1,14 @@
 package de.dailab.fnnc;
 
-import java.util.Random;
-import de.dailab.fnnc.framework.TestDataCreator;
-import de.dailab.fnnc.distance.Vector;
+import de.dailab.fnnc.command.Command;
+import de.dailab.fnnc.command.CreateTestData;
+import java.util.LinkedList;
+import java.util.Collection;
 
 /**
  * Application to nur the benchmark of Fast Nearest Neighbor Search algorithms.
  */
 public final class App {
-
-  /**
-   * Size of the vector set.
-   */
-  private static final int SIZE = 1000;
-
-  /**
-   * Dimension of the vectors.
-   */
-  private static final int DIM = 10;
-
-  /**
-   * Maximal value for a vector entry.
-   */
-  private static final int MAX_VALUE = 1000000;
 
   /**
    * Hided default constructor for App.
@@ -36,23 +22,37 @@ public final class App {
    * @param args arguments
    */
   public static void main(final String[] args) {
-    Random rand = new Random();
-    Vector[] vectors = new Vector[App.SIZE];
-    for (int i = 0; i < App.SIZE; i++) {
-      double[] entries = new double[App.DIM];
-      for (int j = 0; j < App.DIM; j++) {
-        double value = rand.nextInt(App.MAX_VALUE);
-        if (rand.nextBoolean()) {
-          value *= -1;
-        }
-        entries[j] = value;
+    LinkedList<Command> commandList = new LinkedList<Command>();
+    commandList.add(new CreateTestData());
+    if (args.length < 1) {
+      System.out.println(getCommandList(commandList));
+      return;
+    }
+    boolean commandFound = false;
+    for (Command command : commandList) {
+      if (command.getName().equals(args[0])) {
+        command.run(args);
+        commandFound = true;
+        break;
       }
-      vectors[i] = new Vector(entries);
     }
-    TestDataCreator.write(vectors, "1000_10");
-    vectors = TestDataCreator.read("1000_10");
-    for (int i = 0; i < vectors.length; i++) {
-      System.out.println(vectors[i].toString());
+    if (!commandFound) {
+      System.out.println(getCommandList(commandList));
     }
+  }
+
+  /**
+   * Returns a string that shows the known commands.
+   *
+   * @param commandList list of commands
+   * @return list
+   */
+  private static String getCommandList(final Collection<Command> commandList) {
+    String output = "List of known commands:\n";
+    for (Command command : commandList) {
+      output += command.getName();
+    }
+
+    return output;
   }
 }

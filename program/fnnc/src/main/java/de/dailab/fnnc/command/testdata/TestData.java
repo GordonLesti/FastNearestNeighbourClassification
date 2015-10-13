@@ -1,4 +1,4 @@
-package de.dailab.fnnc.framework;
+package de.dailab.fnnc.command.testdata;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -15,12 +15,12 @@ import de.dailab.fnnc.distance.Vector;
 /**
  * Class that creates and reads test data.
  */
-public final class TestDataCreator {
+public final class TestData {
 
   /**
    * Hided default constructor for App.
    */
-  private TestDataCreator() {
+  private TestData() {
   }
 
   /**
