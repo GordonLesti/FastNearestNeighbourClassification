@@ -5,35 +5,65 @@ import java.util.Random;
 import de.dailab.fnnc.distance.Vector;
 import de.dailab.fnnc.search.orchard.VectorDistance;
 
-public class AnnulusMethod implements NearestNeighborSearch{
+/**
+ * Implementation of the AnnulusMethod.
+ */
+public class AnnulusMethod implements NearestNeighborSearch {
 
   /**
    * Set of vectors.
    */
   private Vector[] vectors;
 
+  /**
+   * The index of p*.
+   */
   private int pStarIndex;
 
+  /**
+   * Ordered list of vectors and there distance to p*.
+   */
   private VectorDistance[] list;
 
+  /**
+   * A boolean array to check which vector was already visited.
+   */
   private boolean[] visited;
 
+  /**
+   * The index of the highest visited s index.
+   */
   private int highestVisitedSIndex;
 
+  /**
+   * The index of the lowest visited s index.
+   */
   private int lowestVisitedSindex;
 
+  /**
+   * The upper bound.
+   */
   private int upperBound;
 
+  /**
+   * The lower bound.
+   */
   private int lowerBound;
 
-  public void setVectors(final Vector[] vectorSet) {
+  /**
+   * @inheritDoc
+   *
+   * @param vectorSet vectorSet
+   */
+  public final void setVectors(final Vector[] vectorSet) {
     this.vectors = vectorSet;
     Random rand = new Random();
     int length = this.vectors.length;
     this.pStarIndex = rand.nextInt(length);
     this.list = new VectorDistance[length];
     for (int i = 0; i < length; i++) {
-      double distance = this.vectors[this.pStarIndex].computeDistance(this.vectors[i]);
+      double distance = this.vectors[this.pStarIndex]
+      .computeDistance(this.vectors[i]);
       this.list[i] = new VectorDistance(i, distance);
     }
     Arrays.sort(this.list);

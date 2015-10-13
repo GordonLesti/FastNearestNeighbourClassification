@@ -5,8 +5,11 @@ import java.io.Serializable;
 /**
  * Class representing a vector in the euclidian space.
  */
-public class Vector implements Serializable{
+public class Vector implements Serializable {
 
+  /**
+   * Serial version UID.
+   */
   private static final long serialVersionUID = 42L;
 
   /**
@@ -45,7 +48,12 @@ public class Vector implements Serializable{
     return Math.sqrt(sum);
   }
 
-  public String toString() {
+  /**
+   * Returns a string representing the vector.
+   *
+   * @return string
+   */
+  public final String toString() {
     String output = "<";
     int lastIndex = this.values.length - 1;
     for (int i = 0; i < lastIndex; i++) {
@@ -55,7 +63,13 @@ public class Vector implements Serializable{
     return output;
   }
 
-  public boolean equals(Object object) {
+  /**
+   * Checks if an object is equals to this vector.
+   *
+   * @param object object
+   * @return equals
+   */
+  public final boolean equals(final Object object) {
     if (object instanceof Vector) {
       Vector vector = (Vector) object;
       for (int i = 0; i < this.values.length; i++) {
@@ -66,5 +80,14 @@ public class Vector implements Serializable{
       return true;
     }
     return false;
+  }
+
+  /**
+   * Creates a hashCode of the vector.
+   *
+   * @return hash
+   */
+  public final int hashCode() {
+    super();
   }
 }

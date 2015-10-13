@@ -1,10 +1,30 @@
 package de.dailab.fnnc.framework;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.BufferedOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
+import java.io.ObjectInputStream;
 import de.dailab.fnnc.distance.Vector;
 
-public class TestDataCreator {
+/**
+ * Class that creates and reads test data.
+ */
+public final class TestDataCreator {
 
+  /**
+   * Hided default constructor for App.
+   */
+  private TestDataCreator() {
+  }
+
+  /**
+   * Writes test data.
+   *
+   * @param vectors vector
+   * @param filename filename
+   */
   public static void write(final Vector[] vectors, final String filename) {
     try {
       OutputStream file = new FileOutputStream(filename);
@@ -20,6 +40,12 @@ public class TestDataCreator {
     }
   }
 
+  /**
+   * Reads test data.
+   *
+   * @param filename filename
+   * @return vectors
+   */
   public static Vector[] read(final String filename) {
     Vector[] vectors = null;
     try {

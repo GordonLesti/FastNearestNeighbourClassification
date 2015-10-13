@@ -5,10 +5,24 @@ import de.dailab.fnnc.framework.TestDataCreator;
 import de.dailab.fnnc.distance.Vector;
 
 /**
- * Hello world!
- *
+ * Application to nur the benchmark of Fast Nearest Neighbor Search algorithms.
  */
 public final class App {
+
+  /**
+   * Size of the vector set.
+   */
+  private static final int SIZE = 1000;
+
+  /**
+   * Dimension of the vectors.
+   */
+  private static final int DIM = 10;
+
+  /**
+   * Maximal value for a vector entry.
+   */
+  private static final int MAX_VALUE = 1000000;
 
   /**
    * Hided default constructor for App.
@@ -22,14 +36,12 @@ public final class App {
    * @param args arguments
    */
   public static void main(final String[] args) {
-    int size = 1000;
-    int dim = 10;
     Random rand = new Random();
-    Vector[] vectors = new Vector[size];
-    for (int i = 0; i < size; i++) {
-      double[] entries = new double[dim];
-      for (int j = 0; j < dim; j++) {
-        double value = rand.nextInt(1000000);
+    Vector[] vectors = new Vector[this.SIZE];
+    for (int i = 0; i < this.SIZE; i++) {
+      double[] entries = new double[this.DIM];
+      for (int j = 0; j < this.DIM; j++) {
+        double value = rand.nextInt(this.MAX_VALUE);
         if (rand.nextBoolean()) {
           value *= -1;
         }

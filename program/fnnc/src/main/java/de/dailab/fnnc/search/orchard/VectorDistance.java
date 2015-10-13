@@ -1,24 +1,56 @@
 package de.dailab.fnnc.search.orchard;
 
+/**
+ * A class that represents a pair of a distance and a vector index.
+ */
 public class VectorDistance implements Comparable<VectorDistance> {
+
+  /**
+   * The index of the vector.
+   */
   private int vectorIndex;
 
+  /**
+   * The distance of this vector to an other vector.
+   */
   private double distance;
 
-  public VectorDistance(int vectorIndex, double dist) {
-    this.vectorIndex = vectorIndex;
+  /**
+   * The constructor of VectorDistance.
+   *
+   * @param index vectorIndex
+   * @param dist distance
+   */
+  public VectorDistance(final int index, final double dist) {
+    this.vectorIndex = index;
     this.distance = dist;
   }
 
-  public double getDistance() {
+  /**
+   * Returns the distance.
+   *
+   * @return distance
+   */
+  public final double getDistance() {
     return this.distance;
   }
 
-  public int getVectorIndex() {
+  /**
+   * Returns the index of the vector.
+   *
+   * @return vectorIndex
+   */
+  public final int getVectorIndex() {
     return this.vectorIndex;
   }
 
-  public int compareTo(VectorDistance vecDist) {
+  /**
+   * Compares two VectorDistance objects.
+   *
+   * @param vecDist other VectorDistance object
+   * @return comp
+   */
+  public final int compareTo(final VectorDistance vecDist) {
     if (this.distance < vecDist.distance) {
       return -1;
     }
@@ -28,7 +60,12 @@ public class VectorDistance implements Comparable<VectorDistance> {
     return 1;
   }
 
-  public String toString() {
-    return "Intex: "+this.vectorIndex+" Distance: "+this.distance;
+  /**
+   * Returns a strign representing the VectorDistance.
+   *
+   * @return string
+   */
+  public final String toString() {
+    return "Intex: " + this.vectorIndex + " Distance: " + this.distance;
   }
 }

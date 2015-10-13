@@ -5,14 +5,19 @@ import de.dailab.fnnc.distance.Vector;
 /**
  * Fullsearch algorithm.
  */
-public class FullSearch implements NearestNeighborSearch{
+public class FullSearch implements NearestNeighborSearch {
 
   /**
    * Set of vectors.
    */
   private Vector[] vectors;
 
-  public void setVectors(final Vector[] vectorSet) {
+  /**
+   * @inheritDoc
+   *
+   * @param vectorSet vectorSet
+   */
+  public final void setVectors(final Vector[] vectorSet) {
     this.vectors = vectorSet;
   }
 
@@ -34,7 +39,7 @@ public class FullSearch implements NearestNeighborSearch{
         smallestDistance = currentDistance;
       }
     }
-    System.out.println("FULLSEARCH DISTANCE_COUNT:"+distanceCount);
+    System.out.println("FULLSEARCH DISTANCE_COUNT:" + distanceCount);
     return this.vectors[smallestIndex];
   }
 }
