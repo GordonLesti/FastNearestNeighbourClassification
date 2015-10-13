@@ -1,0 +1,12 @@
+language: java
+
+sudo: false
+
+jdk:
+  - openjdk7
+  - oraclejdk7
+
+script:
+  - mvn checkstyle:check
+  - mvn pmd:checkmvn pmd:check
+  - mvn test
