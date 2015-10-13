@@ -37,11 +37,11 @@ public final class App {
    */
   public static void main(final String[] args) {
     Random rand = new Random();
-    Vector[] vectors = new Vector[this.SIZE];
-    for (int i = 0; i < this.SIZE; i++) {
-      double[] entries = new double[this.DIM];
-      for (int j = 0; j < this.DIM; j++) {
-        double value = rand.nextInt(this.MAX_VALUE);
+    Vector[] vectors = new Vector[App.SIZE];
+    for (int i = 0; i < App.SIZE; i++) {
+      double[] entries = new double[App.DIM];
+      for (int j = 0; j < App.DIM; j++) {
+        double value = rand.nextInt(App.MAX_VALUE);
         if (rand.nextBoolean()) {
           value *= -1;
         }

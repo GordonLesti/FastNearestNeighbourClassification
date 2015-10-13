@@ -26,31 +26,6 @@ public class AnnulusMethod implements NearestNeighborSearch {
   private VectorDistance[] list;
 
   /**
-   * A boolean array to check which vector was already visited.
-   */
-  private boolean[] visited;
-
-  /**
-   * The index of the highest visited s index.
-   */
-  private int highestVisitedSIndex;
-
-  /**
-   * The index of the lowest visited s index.
-   */
-  private int lowestVisitedSindex;
-
-  /**
-   * The upper bound.
-   */
-  private int upperBound;
-
-  /**
-   * The lower bound.
-   */
-  private int lowerBound;
-
-  /**
    * @inheritDoc
    *
    * @param vectorSet vectorSet
@@ -76,13 +51,8 @@ public class AnnulusMethod implements NearestNeighborSearch {
    * @return nearest neighbor
    */
   public final Vector getNearestNeighbor(final Vector vector) {
-    this.visited = new boolean[this.list.length];
     Random rand = new Random();
     int cIndexInPList = rand.nextInt(this.list.length);
-    this.highestVisitedSIndex = cIndexInPList;
-    this.lowestVisitedSindex = cIndexInPList;
-    this.upperBound = Integer.MIN_VALUE;
-    this.lowerBound = Integer.MAX_VALUE;
     return this.vectors[cIndexInPList];
   }
 }

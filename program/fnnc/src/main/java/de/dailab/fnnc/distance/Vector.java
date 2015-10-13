@@ -88,6 +88,6 @@ public class Vector implements Serializable {
    * @return hash
    */
   public final int hashCode() {
-    super();
+    return super.hashCode();
   }
 }

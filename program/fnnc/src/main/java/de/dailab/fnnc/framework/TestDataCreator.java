@@ -1,8 +1,12 @@
 package de.dailab.fnnc.framework;
 
 import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.ObjectOutput;
 import java.io.BufferedOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.ObjectInput;
 import java.io.FileInputStream;
 import java.io.BufferedInputStream;
 import java.io.ObjectInputStream;
