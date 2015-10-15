@@ -36,11 +36,20 @@ public class CreateTestData implements Command {
   /**
    * @inheritDoc
    *
+   * @return description
+   */
+  public final String getDescription() {
+    return "Creates test data.";
+  }
+
+  /**
+   * @inheritDoc
+   *
    * @param args arguments
    */
   public final void run(final String[] args) {
     if (args.length < this.SIZE_ARG_INDEX + 1) {
-      System.out.println("Usage: create-test-data DIM SIZE [FILENAME]");
+      System.out.println("Usage: " + this.getName() + " DIM SIZE [FILENAME]");
       return;
     }
     int dim = Integer.parseInt(args[this.DIM_ARG_INDEX]);
@@ -56,8 +65,6 @@ public class CreateTestData implements Command {
     if (args.length > this.FILENAME_ARG_INDEX) {
       filename = args[this.FILENAME_ARG_INDEX];
     }
-    System.out.println("Starting create-test-data with DIM=" + dim + " SIZE="
-    + size + " FILENAME=" + filename);
     Random rand = new Random();
     Vector[] vectorSet = new Vector[size];
     for (int i = 0; i < size; i++) {
@@ -67,6 +74,11 @@ public class CreateTestData implements Command {
       }
       vectorSet[i] = new Vector(values);
     }
-    TestData.write(vectorSet, filename);
+    boolean result = TestData.write(vectorSet, filename);
+    if (result) {
+      System.out.println("Writed test-data to " + filename);
+    } else {
+      System.out.println("Problem when writing to " + filename);
+    }
   }
 }

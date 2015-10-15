@@ -13,6 +13,13 @@ public interface Command {
   String getName();
 
   /**
+   * Returns the description of the command.
+   *
+   * @return description
+   */
+  String getDescription();
+
+  /**
    * Runs a command.
    *
    * @param args arguments

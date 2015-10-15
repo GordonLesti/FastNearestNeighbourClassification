@@ -23,6 +23,15 @@ public class OrchardAlgorithmus implements NearestNeighborSearch {
   /**
    * @inheritDoc
    *
+   * @return name
+   */
+  public final String getName() {
+    return "orchard";
+  }
+
+  /**
+   * @inheritDoc
+   *
    * @param vectorSet vectorSet
    */
   public final void setVectors(final Vector[] vectorSet) {

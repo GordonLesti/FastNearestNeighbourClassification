@@ -15,6 +15,15 @@ public class FullSearch implements NearestNeighborSearch {
   /**
    * @inheritDoc
    *
+   * @return name
+   */
+  public final String getName() {
+    return "fullsearch";
+  }
+
+  /**
+   * @inheritDoc
+   *
    * @param vectorSet vectorSet
    */
   public final void setVectors(final Vector[] vectorSet) {

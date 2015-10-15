@@ -28,6 +28,15 @@ public class AnnulusMethod implements NearestNeighborSearch {
   /**
    * @inheritDoc
    *
+   * @return name
+   */
+  public final String getName() {
+    return "annulus";
+  }
+
+  /**
+   * @inheritDoc
+   *
    * @param vectorSet vectorSet
    */
   public final void setVectors(final Vector[] vectorSet) {

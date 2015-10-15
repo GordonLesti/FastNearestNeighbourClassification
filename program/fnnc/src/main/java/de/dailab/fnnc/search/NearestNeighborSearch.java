@@ -8,6 +8,13 @@ import de.dailab.fnnc.distance.Vector;
 public interface NearestNeighborSearch {
 
   /**
+   * Returns the name of the algorithm.
+   *
+   * @return name
+   */
+  String getName();
+
+  /**
    * Sets an array of vectors to the algorithm.
    *
    * @param vectorSet vetorSet

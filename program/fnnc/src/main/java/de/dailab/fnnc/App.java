@@ -2,6 +2,7 @@ package de.dailab.fnnc;
 
 import de.dailab.fnnc.command.Command;
 import de.dailab.fnnc.command.CreateTestData;
+import de.dailab.fnnc.command.Benchmark;
 import java.util.LinkedList;
 import java.util.Collection;
 
@@ -24,6 +25,7 @@ public final class App {
   public static void main(final String[] args) {
     LinkedList<Command> commandList = new LinkedList<Command>();
     commandList.add(new CreateTestData());
+    commandList.add(new Benchmark());
     if (args.length < 1) {
       System.out.println(getCommandList(commandList));
       return;
@@ -50,7 +52,7 @@ public final class App {
   private static String getCommandList(final Collection<Command> commandList) {
     String output = "List of known commands:\n";
     for (Command command : commandList) {
-      output += command.getName();
+      output += command.getName() + " - " + command.getDescription() + "\n";
     }
 
     return output;

@@ -28,8 +28,9 @@ public final class TestData {
    *
    * @param vectors vector
    * @param filename filename
+   * @return success
    */
-  public static void write(final Vector[] vectors, final String filename) {
+  public static boolean write(final Vector[] vectors, final String filename) {
     try {
       OutputStream file = new FileOutputStream(filename);
       OutputStream buffer = new BufferedOutputStream(file);
@@ -40,8 +41,9 @@ public final class TestData {
         output.close();
       }
     } catch (Exception e) {
-      e.printStackTrace(System.out);
+      return false;
     }
+    return true;
   }
 
   /**
@@ -62,7 +64,7 @@ public final class TestData {
         input.close();
       }
     } catch (Exception e) {
-      e.printStackTrace(System.out);
+      return null;
     }
     return vectors;
   }
