@@ -10,4 +10,4 @@ before_script:
   - cd program
 
 script:
-  - gradle check --info
+  - gradle check
