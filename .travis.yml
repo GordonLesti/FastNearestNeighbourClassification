@@ -10,6 +10,4 @@ before_script:
   - cd program
 
 script:
-  - mvn checkstyle:check
-  - mvn pmd:check
-  - mvn test
+  - gradle check --info
