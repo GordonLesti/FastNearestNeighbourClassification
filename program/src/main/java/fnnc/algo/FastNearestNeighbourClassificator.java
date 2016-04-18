@@ -18,6 +18,7 @@ public abstract class FastNearestNeighbourClassificator<T, D extends Comparable<
   ) {
     this.distanceCalculator = distanceCalculator;
     this.objectCollection = objectCollection;
+    this.preProcessing();
   }
 
   protected abstract void preProcessing();

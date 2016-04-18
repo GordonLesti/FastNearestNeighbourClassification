@@ -24,16 +24,15 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
       Collection<T> objectCollection
   ) {
     super(distanceCalculator, objectCollection);
+  }
+
+  protected void preProcessing() {
     this.orderedLists =
         new HashMap<Integer, LinkedList<DistanceObjectPair<Double, Integer>>>(
           objectCollection.size()
         );
     this.indexedObjects =
         new HashMap<Integer, T>(objectCollection.size());
-    this.preProcessing();
-  }
-
-  protected void preProcessing() {
     int counter = 0;
     for (T curr : this.objectCollection) {
       LinkedList<DistanceObjectPair<Double, Integer>> itemList =
