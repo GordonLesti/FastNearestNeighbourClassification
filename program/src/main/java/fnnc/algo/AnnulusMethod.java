@@ -57,41 +57,41 @@ public class AnnulusMethod<T> extends FastNearestNeighbourClassificator<T, Doubl
     double distancePq = this.distanceCalculator.calculateDistance(this.objectP, queryObject);
     while (listIterator.hasNext() || listIterator.hasPrevious()) {
       if (next && listIterator.hasNext() || !next && !listIterator.hasPrevious()) {
-          DistanceObjectPair<Double, T> distObjPairS = listIterator.next();
-          listIterator.remove();
-          T objectS = distObjPairS.getObject();
-          double distanceSq = this.distanceCalculator.calculateDistance(objectS, queryObject);
-          if (distanceSq < distanceCq) {
-              distanceCq = distanceSq;
-              distObjPairC = distObjPairS;
-              objectC = objectS;
-              continue;
+        DistanceObjectPair<Double, T> distObjPairS = listIterator.next();
+        listIterator.remove();
+        T objectS = distObjPairS.getObject();
+        double distanceSq = this.distanceCalculator.calculateDistance(objectS, queryObject);
+        if (distanceSq < distanceCq) {
+          distanceCq = distanceSq;
+          distObjPairC = distObjPairS;
+          objectC = objectS;
+          continue;
+        }
+        if (distObjPairS.getDistance() > distancePq + distanceCq) {
+          while (listIterator.hasNext()) {
+            listIterator.next();
+            listIterator.remove();
           }
-          if (distObjPairS.getDistance() > distancePq + distanceCq) {
-              while (listIterator.hasNext()) {
-                  listIterator.next();
-                  listIterator.remove();
-              }
-          }
-          next = false;
+        }
+        next = false;
       } else {
-          DistanceObjectPair<Double, T> distObjPairS = listIterator.previous();
-          listIterator.remove();
-          T objectS = distObjPairS.getObject();
-          double distanceSq = this.distanceCalculator.calculateDistance(objectS, queryObject);
-          if (distanceSq < distanceCq) {
-              distanceCq = distanceSq;
-              distObjPairC = distObjPairS;
-              objectC = objectS;
-              continue;
+        DistanceObjectPair<Double, T> distObjPairS = listIterator.previous();
+        listIterator.remove();
+        T objectS = distObjPairS.getObject();
+        double distanceSq = this.distanceCalculator.calculateDistance(objectS, queryObject);
+        if (distanceSq < distanceCq) {
+          distanceCq = distanceSq;
+          distObjPairC = distObjPairS;
+          objectC = objectS;
+          continue;
+        }
+        if (distObjPairS.getDistance() < distancePq - distanceCq) {
+          while (listIterator.hasPrevious()) {
+            listIterator.previous();
+            listIterator.remove();
           }
-          if (distObjPairS.getDistance() < distancePq - distanceCq) {
-              while (listIterator.hasPrevious()) {
-                  listIterator.previous();
-                  listIterator.remove();
-              }
-          }
-          next = true;
+        }
+        next = true;
       }
     }
     return objectC;

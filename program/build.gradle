@@ -2,6 +2,12 @@ apply plugin: 'java'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'fnnc.Application'
+    }
+}
+
 checkstyle {
     toolVersion = "6.2"
 }
