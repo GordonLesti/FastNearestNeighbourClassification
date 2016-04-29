@@ -40,18 +40,27 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
     for (T curr : this.objectCollection) {
       LinkedList<DistanceObjectPair<Double, Integer>> itemList =
           new LinkedList<DistanceObjectPair<Double, Integer>>();
-      int innerCounter = 0;
-      for (T item : this.objectCollection) {
-        if (curr != item) {
-          double distance = this.distanceCalculator.calculateDistance(curr, item);
-          itemList.add(new DistanceObjectPair<Double, Integer>(distance, innerCounter));
-        }
-        innerCounter++;
-      }
-      Collections.sort(itemList);
       this.orderedLists.put(counter, itemList);
       this.indexedObjects.put(counter, curr);
       counter++;
+    }
+    counter = 0;
+    for (T curr : this.objectCollection) {
+      LinkedList<DistanceObjectPair<Double, Integer>> itemList = this.orderedLists.get(counter);
+      int innerCounter = 0;
+      for (T item : this.objectCollection) {
+        if (curr == item) {
+          break;
+        }
+        double distance = this.distanceCalculator.calculateDistance(curr, item);
+        itemList.add(new DistanceObjectPair<Double, Integer>(distance, innerCounter));
+        this.orderedLists.get(innerCounter).add(new DistanceObjectPair<Double, Integer>(distance, counter));
+        innerCounter++;
+      }
+      counter++;
+    }
+    for (int i = 0; i < counter; i++) {
+      Collections.sort(this.orderedLists.get(i));
     }
   }
 
