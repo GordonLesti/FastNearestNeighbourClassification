@@ -2,9 +2,13 @@ apply plugin: 'java'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 
+version = '1.0'
+
 jar {
     manifest {
-        attributes 'Main-Class': 'fnnc.Application'
+        attributes 'Main-Class': 'fnnc.Application',
+                   'Implementation-Title': 'FastNearestNeighbourClassification',
+                   'Implementation-Version': version
     }
 }
 

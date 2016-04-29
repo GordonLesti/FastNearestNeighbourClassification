@@ -11,6 +11,9 @@ public abstract class DistanceCalculator<T, D extends Comparable<D>> {
     return internalCalculateDistance(object1, object2);
   }
 
+  /**
+   * Resets the counter to 0 and returns the current count.
+   */
   public final int reset() {
     int result = this.count;
     this.count = 0;

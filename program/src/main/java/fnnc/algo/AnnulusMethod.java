@@ -16,13 +16,16 @@ public class AnnulusMethod<T> extends FastNearestNeighbourClassificator<T, Doubl
   private LinkedList<DistanceObjectPair<Double, T>> orderedList;
 
   public AnnulusMethod(
-      DistanceCalculator<T, Double> distanceCalculator,
-      Collection<T> objectCollection
+      DistanceCalculator<T, Double> distanceCalculator
   ) {
-    super(distanceCalculator, objectCollection);
+    super(distanceCalculator);
   }
 
-  protected void preProcessing() {
+  /**
+   * Prepares search for nearest neighboor.
+   */
+  public void preProcessing(Collection<T> objectCollection) {
+    super.preProcessing(objectCollection);
     Random rand = new Random();
     int indexP = rand.nextInt(this.objectCollection.size());
     LinkedList<T> list = new LinkedList<T>(this.objectCollection);

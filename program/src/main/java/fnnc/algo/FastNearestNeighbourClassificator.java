@@ -12,16 +12,16 @@ public abstract class FastNearestNeighbourClassificator<T, D extends Comparable<
   /**
    * Creates a fast nearest neighbour classificator.
    */
-  public FastNearestNeighbourClassificator(
-      DistanceCalculator<T, D> distanceCalculator,
-      Collection<T> objectCollection
-  ) {
+  public FastNearestNeighbourClassificator(DistanceCalculator<T, D> distanceCalculator) {
     this.distanceCalculator = distanceCalculator;
-    this.objectCollection = objectCollection;
-    this.preProcessing();
   }
 
-  protected abstract void preProcessing();
+  /**
+   * Prepares search for nearest neighboor.
+   */
+  public void preProcessing(Collection<T> objectCollection) {
+    this.objectCollection = objectCollection;
+  }
 
   /**
    * Calculates the nearest neighbour of the given query object.

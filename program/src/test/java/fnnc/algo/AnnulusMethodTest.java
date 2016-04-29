@@ -17,8 +17,8 @@ public class AnnulusMethodTest {
     pointCollection.add(new Point2D.Double(-4, -4));
     pointCollection.add(new Point2D.Double(0, -1));
     pointCollection.add(new Point2D.Double(4, -3));
-    AnnulusMethod<Point2D.Double> fnncAlgo =
-        new AnnulusMethod<Point2D.Double>(distanceCalculator, pointCollection);
+    AnnulusMethod<Point2D.Double> fnncAlgo = new AnnulusMethod<Point2D.Double>(distanceCalculator);
+    fnncAlgo.preProcessing(pointCollection);
     assertEquals(
         new Point2D.Double(3, 3),
         fnncAlgo.calculateNearestNeighbour(new Point2D.Double(2, 1))

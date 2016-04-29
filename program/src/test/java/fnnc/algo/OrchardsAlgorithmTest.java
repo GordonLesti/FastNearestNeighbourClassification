@@ -18,7 +18,8 @@ public class OrchardsAlgorithmTest {
     pointCollection.add(new Point2D.Double(0, -1));
     pointCollection.add(new Point2D.Double(4, -3));
     OrchardsAlgorithm<Point2D.Double> fnncAlgo =
-        new OrchardsAlgorithm<Point2D.Double>(distanceCalculator, pointCollection);
+        new OrchardsAlgorithm<Point2D.Double>(distanceCalculator);
+    fnncAlgo.preProcessing(pointCollection);
     assertEquals(
         new Point2D.Double(3, 3),
         fnncAlgo.calculateNearestNeighbour(new Point2D.Double(2, 1))

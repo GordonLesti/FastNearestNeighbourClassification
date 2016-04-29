@@ -18,7 +18,8 @@ public class FullSearchTest {
     pointCollection.add(new Point2D.Double(0, -1));
     pointCollection.add(new Point2D.Double(4, -3));
     FullSearch<Point2D.Double, Double> fnncAlgo =
-        new FullSearch<Point2D.Double, Double>(distanceCalculator, pointCollection);
+        new FullSearch<Point2D.Double, Double>(distanceCalculator);
+    fnncAlgo.preProcessing(pointCollection);
     assertEquals(
         new Point2D.Double(3, 3),
         fnncAlgo.calculateNearestNeighbour(new Point2D.Double(2, 1))

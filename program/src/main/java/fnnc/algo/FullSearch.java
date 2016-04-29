@@ -8,11 +8,9 @@ import java.util.Collection;
 public class FullSearch<T, D extends Comparable<D>>
     extends FastNearestNeighbourClassificator<T, D> {
 
-  public FullSearch(DistanceCalculator<T, D> distanceCalculator, Collection<T> objectCollection) {
-    super(distanceCalculator, objectCollection);
+  public FullSearch(DistanceCalculator<T, D> distanceCalculator) {
+    super(distanceCalculator);
   }
-
-  protected void preProcessing() {}
 
   /**
    * Calculates the nearest neighbour of the given query object.
