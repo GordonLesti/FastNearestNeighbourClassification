@@ -1,1 +1,1 @@
-# FastNearestNeighbourClassification - Presentation
+# Fast Nearest Neighbour Classification - Presentation

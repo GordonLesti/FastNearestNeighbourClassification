@@ -1,4 +1,4 @@
-# FastNearestNeighbourClassification
+# Fast Nearest Neighbour Classification
 
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]

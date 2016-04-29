@@ -1,1 +1,1 @@
-# FastNearestNeighbourClassification - Paper
+# Fast Nearest Neighbour Classification - Paper
