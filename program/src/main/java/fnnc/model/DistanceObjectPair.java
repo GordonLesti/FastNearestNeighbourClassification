@@ -19,6 +19,10 @@ public class DistanceObjectPair<D extends Comparable<D>, T>
     return this.distance;
   }
 
+  public void setDistance(D distance) {
+    this.distance = distance;
+  }
+
   public T getObject() {
     return this.object;
   }

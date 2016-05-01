@@ -54,7 +54,9 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
         }
         double distance = this.distanceCalculator.calculateDistance(curr, item);
         itemList.add(new DistanceObjectPair<Double, Integer>(distance, innerCounter));
-        this.orderedLists.get(innerCounter).add(new DistanceObjectPair<Double, Integer>(distance, counter));
+        this.orderedLists.get(innerCounter).add(
+            new DistanceObjectPair<Double, Integer>(distance, counter)
+        );
         innerCounter++;
       }
       counter++;

@@ -15,9 +15,7 @@ public class AnnulusMethod<T> extends FastNearestNeighbourClassificator<T, Doubl
   private T objectP;
   private LinkedList<DistanceObjectPair<Double, T>> orderedList;
 
-  public AnnulusMethod(
-      DistanceCalculator<T, Double> distanceCalculator
-  ) {
+  public AnnulusMethod(DistanceCalculator<T, Double> distanceCalculator) {
     super(distanceCalculator);
   }
 

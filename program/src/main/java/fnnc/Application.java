@@ -1,5 +1,6 @@
 package fnnc;
 
+import fnnc.algo.Aesa;
 import fnnc.algo.AnnulusMethod;
 import fnnc.algo.FastNearestNeighbourClassificator;
 import fnnc.algo.FullSearch;
@@ -137,6 +138,7 @@ public class Application {
     algos.add(new FullSearch<Point2D.Double, Double>(distanceCalculator));
     algos.add(new OrchardsAlgorithm<Point2D.Double>(distanceCalculator));
     algos.add(new AnnulusMethod<Point2D.Double>(distanceCalculator));
+    algos.add(new Aesa<Point2D.Double>(distanceCalculator));
 
     return algos;
   }

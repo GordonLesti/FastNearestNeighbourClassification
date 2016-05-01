@@ -1,4 +1,5 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import fnnc.model.DistanceObjectPair;
 import org.junit.Before;
@@ -30,6 +31,13 @@ public class DistanceObjectPairTest {
   @Test
   public void testGetObject() {
     assertEquals("Object", this.distObjPair.getObject());
+  }
+
+  @Test
+  public void testSetDistance() {
+    int newDistance = -8;
+    this.distObjPair.setDistance(newDistance);
+    assertSame(newDistance, this.distObjPair.getDistance());
   }
 
   @Test
