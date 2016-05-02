@@ -18,7 +18,7 @@ public class Aesa<T> extends FastNearestNeighbourClassificator<T, Double> {
   }
 
   /**
-   * Prepares search for nearest neighboor.
+   * Prepares search for nearest neighbour.
    */
   public void preProcessing(Collection<T> objectCollection) {
     super.preProcessing(objectCollection);
@@ -58,7 +58,7 @@ public class Aesa<T> extends FastNearestNeighbourClassificator<T, Double> {
     DistanceObjectPair<Double, T> pair = unknownList.remove(
         rand.nextInt(unknownList.size())
     );
-    T nearestNeighboor = pair.getObject();
+    T nearestNeighbour = pair.getObject();
     while (pair != null) {
       T object = pair.getObject();
       if (unknownList.size() == 0) {
@@ -67,7 +67,7 @@ public class Aesa<T> extends FastNearestNeighbourClassificator<T, Double> {
       double distance = this.distanceCalculator.calculateDistance(object, queryObject);
       if (distance < smallestDistance) {
         smallestDistance = distance;
-        nearestNeighboor = object;
+        nearestNeighbour = object;
       }
       double max = Double.POSITIVE_INFINITY;
       Iterator<DistanceObjectPair<Double, T>> iterator = unknownList.iterator();
@@ -90,6 +90,6 @@ public class Aesa<T> extends FastNearestNeighbourClassificator<T, Double> {
       }
       unknownList.remove(pair);
     }
-    return nearestNeighboor;
+    return nearestNeighbour;
   }
 }

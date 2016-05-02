@@ -26,7 +26,7 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
   }
 
   /**
-   * Prepares search for nearest neighboor.
+   * Prepares search for nearest neighbour.
    */
   public void preProcessing(Collection<T> objectCollection) {
     super.preProcessing(objectCollection);

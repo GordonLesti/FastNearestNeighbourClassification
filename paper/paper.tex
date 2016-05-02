@@ -1,158 +1,107 @@
-\documentclass[deutsch,runningheads,a4paper]{llncs}
+\documentclass[runningheads,a4paper]{llncs}
 
-\usepackage[utf8]{inputenc}
-\usepackage{amsfonts}
-\usepackage{cite}
-\usepackage[ngerman]{babel}
-\usepackage[T1]{fontenc}
-\usepackage[a4paper, left=3cm, right=3cm, top=2.5cm, bottom=2cm]{geometry}
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{pgfplots}
 
+\usepackage{url}
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
 \noindent\keywordname\enspace\ignorespaces#1}
 
-\newcommand{\changefont}[3]{
-\fontfamily{#1} \fontseries{#2} \fontshape{#3} \selectfont}
-\changefont{ptm}{m}{n}
-\fontsize{12pt}{6pt}
-
 \begin{document}
-  \setcounter{tocdepth}{2}
-  \makeatletter
-  \renewcommand*\l@author[2]{}
-  \renewcommand*\l@title[2]{}
-  \makeatletter
-  \title{Fast Nearest Neighbour Classification}
-  \subtitle{\textnormal{\small{Seminar\\Intelligente Software-Systeme\\Sommersemester 2015}\\\vspace{1\baselineskip}
-    Stefan Fricke\\\vspace{15\baselineskip} September 2015\\Betreuer: Stephan Spiegel\\\vspace{2\baselineskip}}}
-  \titlerunning{Fast Nearest Neighbour Classification}
-  
-  \author{Gordon Lesti\\313249\\Studiengang: Informatik\\gordon.lesti@campus.tu-berlin.de}
-  \authorrunning{Gordon Lesti}
-  
-  \institute{Technische Universität Berlin\\
-  Fakultät IV – Elektrotechnik und Informatik\\
-  Fachgebiet AOT\\
-  Prof. Dr. Sahin Albayrak}
-  
-  \maketitle
-  \newpage
-  \pagenumbering{roman}
-  
-  \addcontentsline{toc}{section}{Zusammenfassung}
-  \begin{abstract}
-    Diese Seminararbeit befasst sich mit dem Problem der \textit{Nächster Nachbar Klassifikation}. Zur Lösung dieses
-    Problems werden grundlegende Algorithmen basierend auf der Dreiecksungleichung in metrischen Räumen vorgestellt und
-    verglichen. Dabei hat jeder Algorithmus die Aufgabe aus einer Menge $S$ das Element $a$ zu ermitteln, welches den
-    kleinsten Abstand zum Anfragepunkt $q$ hat. $S$ ist dabei eine endliche Teilmenge von $\mathbb{U}$ und $d$ das
-    Abstandsmaß auf $\mathbb{U}$.
-    \keywords{Nächster Nachbar Klassifikation, Dreiecksungleichung, Metrischer Raum}\\\vspace{4\baselineskip}
-    
-    \textbf{Plagiatserklärung}\\
-    Hiermit versichere ich, dass ich diese Seminararbeit selbstständig verfasst und keine anderen als die angegebenen
-    Quellen und Hilfsmittel benutzt habe. Die Stellen meiner Arbeit, die dem Wortlaut oder dem Sinn nach anderen Werken
-    entnommen sind, habe ich in jedem Fall unter Angabe der Quelle als Entlehnung kenntlich gemacht. Dasselbe gilt
-    sinngemaäß für Tabellen, Karten und Abbildungen. Diese Arbeit hat in dieser oder einer ähnlichen Form noch nicht im
-    Rahmen einer anderen Prüfung vorgelegen.
-  \end{abstract}
-  
-  \tableofcontents
-  \addcontentsline{toc}{section}{Inhaltsverzeichnis}
-  \newpage
-  \pagenumbering{arabic}
-  
-  \section{Einleitung}
-    Das Problem der \textit{Nächster Nachbar Klassifikation} lässt sich recht leicht zusammen fassen. Gegeben ist eine
-    Menge $\mathbb{U}$ und ein Abstandsmaß $d$ auf $\mathbb{U}$ mit $d: \mathbb{U} \times \mathbb{U} \to \mathbb{R}$.
-    Des weiteren eine endliche Teilmenge $S \subset \mathbb{U}$ der Größe $n$ und ein Anfragepunkt $q \in \mathbb{U}$.
-    Gesucht ist der nächste Nachbar $a$ aus $S$, welcher minimalen Abstand zu $q$ hat. Also $a \in S$, mit
-    $d(q, a) \le d(q, x)$ f\"ur alle $x \in S$.
-    
-    Eine allgemeinere Form dieses Problems ist die \textit{k-Nächsten Nachbarn Klassifikation}. In dieser
-    Semesterarbeit wird somit der Spezialfall mit $k = 1$ betrachtet.
-  
-  \subsection{Vollsuche}
-    Die Vollsuche ist die einfachste Form um einen nächsten Nachbarn $a$ aus der Menge $S$ zu ermitteln.
-    Dabei wird für jedes Element $x \in S$ der Abstand $d(q, x)$ berechnet. Der nächste Nachbar zu $q$ ist das Element
-    mit dem kleinsten Abstand.
-    
-    Ein Vorteil der Vollsuche ist, dass die Implementierung sehr einfach ist. Des weiteren funktioniert dieser
-    Algorithmus auch in nicht metrischen Räumen. Der große Nachteil ist eindeutig die Laufzeit. Für jedes Element aus
-    $S$ muss der Abstand zum Anfragepunkt $q$ berechnet werden.
-  
-  \section{Algorithmen}
-    Die folgenden Algorithmen machen alle Gebrauch von den Eigenschaften des metrischen Raumes. Insbesondere die
-    Dreiecksungleichung hilft Abstandsvergleiche mit dem Anfragepunkt $q$ einzusparen. Eine Metrik hat nach Foster
-    \cite{forster-analysis2} folgende Definition.
-    \begin{definition}
-      Sei $x$ eine Menge. Unter einer \textit{Metrik} auf $X$ versteht man eine Abbildung
-      $d:X \times X \to \mathbb{R}$, $(x, y) \mapsto d(x, y)$ mit folgenden Eigenschaften:
-      \begin{enumerate}
-      \item $d(x, y) = 0$ genau dann, wenn $x=y$.
-      \item Symmetrie: F\"ur alle $x, y \in X$ gilt $d(x, y) = d(y, x)$.
-      \item Dreiecksungleichung: F\"ur alle $x, y, z \in X$ gilt $d(x, z) \le d(x, y) + d(y,z)$
-      \end{enumerate}
-    \end{definition}
-    Um diese Eigenschaft der Dreiecksungleichung in den Algorithmen nutzen zu können brauchen wir folgendes Lemma von
-    Clarkson \cite{clarkson2005nearest}.
-    \begin{lemma}
-     F\"ur beliebige $q, s, p \in \mathbb{U}$, $r \in \mathbb{R}$ und $P \subset \mathbb{U}$ gilt:
-     \begin{enumerate}
-      \item \label{ineq:1}$|d(p, q) - d(p, s)| \le d(q, s) \le d(p, q) + d(p, s)$
-      \item \label{ineq:2}$d(q, s) \ge d_P(q, s) := \max_{p \in P}|d(p, q) - d(p, s)|$
-      \item \label{ineq:3}$d(p, s) > d(p, q) + r \vee d(p, s) < d(p, q) -r \Rightarrow d(q, s) > r$
-      \item \label{ineq:4}$d(p, s) \ge 2 \cdot d(p, q) \Rightarrow d(q, s) \ge d(q, p)$
-     \end{enumerate}
-    \end{lemma}
-    
-  \subsection{Orchard's Algorithmus}
-    \begin{itemize}
-     \item F\"ur alle Punkte $p \in S$ wird mit allen Punkten $x \in S$ eine Liste erstellt, aufsteigend nach ihrer Distanz
-     \item Es wird zufälliger Punkt $c \in S$ als initialen Kandidaten gewählt
-     \item Es wird $d(c, q)$ berechnet
-     \item Liste von $c$ wird entlanggegangen
-     \item Wenn aktueller Punkt näher an $q$ als $c$, wird aktueller Punkt $c$
-     \item Abbruch, wenn
-      \begin{itemize}
-       \item die Liste komplett abgelaufen ist, oder
-       \item $d(c, s) > 2 \cdot d(c, q)$ f\"ur aktuelles Element aus der Liste (Dreiecksungleichung~\ref{ineq:4})
-      \end{itemize}
-     \item Sonst ist $c$ nächster Nachbar
-    \end{itemize}
-  \subsection{Annulus Verfahren}
-   \begin{itemize}
-      \item Erstelle eine Liste für beliebigen Punkt $p^* \in S$ mit allen Punkten $x \in S$, aufsteigend nach ihrer Distanz
-      \item Wähle beliebigen Kandidaten $c \in S$
-      \item Bewege dich alternierend von $p^*$ weg und wieder hin
-      \item Wenn aktueller Punkt $s$ näher an $q$ als $c$, setze $c:= s$
-      \item Aktueller Punkt $s$ unter $c$:
-      \begin{itemize}
-      \item Wenn $d(p^*, s) < d(p^*, q) - d(c, q)$, können alle Punkte unter $s$ ignoriert werden (Dreiecksungleichung~\ref{ineq:3})
-      \end{itemize}
-      \item Aktueller Punkt $s$ über $c$:
-      \begin{itemize}
-      \item Wenn $d(p^*, s) > d(p*, q) + d(c, q)$, können alle Punkte über $s$ ignoriert werden (Dreiecksungleichung~\ref{ineq:3})
-      \end{itemize}
-      \item Wenn ganze Liste durchlaufen, ist $c$ nächster Nachbar
-    \end{itemize}
-  \subsection{AESA}
-    \begin{itemize}
-      \item Erstelle Matrix aus allen Abständen $d(x, y)$, mit $x, y \in S$
-      \item Jeder Punkt ist immer in einem der drei Statusse
-      \begin{itemize}
-      \item \textit{Bekannt}, $d(x, q)$ ist bekannt
-      \item \textit{Unbekannt}, nur $d_P(x, q)$ ist bekannt
-      \item \textit{Abgelehnt}, $d_P(x, q)$ ist größer als aktuell kleinster Abstand $r$
-      \end{itemize}
-      \item Alle $x \in S$ sind zum Anfang $Unbekannt$ und $d_P(x, q) = \infty$
-      \item Wiederhole bis alle $x \in S$ \textit{Bekannt} oder \textit{Abgelehnt}
-      \begin{enumerate}
-      \item Wähle \textit{Unbekannt}-en Punkt $x \in S$ mit kleinstem $d_P(x, q)$
-      \item Berechne $d(x,q)$, so das $x$ \textit{Bekannt} wird
-      \item Aktuallisiere den kleinsten Abstand $r$
-      \item Setze $P:= P \cup \{x\}$, aktuallisiere $d_P(x', q)$, wenn $x'$ \textit{Unbekannt} und markiere $x'$ \textit{Abgelehnt}, wenn $d_P(x', q) > r$
-      \end{enumerate}
-    \end{itemize}
-  \bibliography{paper.bib}{}
-  \bibliographystyle{splncs03}
-  \addcontentsline{toc}{section}{Literatur}
+
+\mainmatter
+
+\title{Fast Nearest Neighbour Classification}
+\subtitle{\textnormal{\small{Seminar\\
+Intelligente Software-Systeme\\
+Sommersemester 2015\\\vspace{1\baselineskip}
+Stefan Fricke\\\vspace{2\baselineskip}
+April 2016\\
+Betreuer: Stephan Spiegel\\\vspace{1\baselineskip}}}}
+
+\titlerunning{Fast Nearest Neighbour Classification}
+
+\author{Gordon Lesti\\313249\\Studiengang: Informatik\\gordon.lesti@campus.tu-berlin.de\\\vspace{5\baselineskip}}
+
+\authorrunning{Fast Nearest Neighbour Classification}
+
+\institute{Technische Universit\"at Berlin\\
+Fakult\"at IV Elektrotechnik und Informatik\\
+Fachgebiet AOT\\
+Prof. Dr. Sahin Albayrak\\
+\url{http://www.aot.tu-berlin.de/}}
+
+\toctitle{Fast Nearest Neighbour Classification}
+\tocauthor{Gordon Lesti}
+\maketitle
+
+
+\begin{abstract}
+This term paper is about nearest neighbour classifiers that work with the triangle inequality of metric spaces.
+Benchmarks on examples from the two-dimensional space will show the advantages and disadvantages of three known
+algorithms. The Orchard’s Algorithm, the Annulus Method and the AESA will be explained on examples and compared to the
+full search. The benchmarks aren't comparing execution time, they will compare calls of the distance function.
+\keywords{Nearest neighbour classifiers, Triangle inequality, Metric space}
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+\subsection{Requirements}
+
+\section{Algorithms}
+
+\subsection{Full Search}
+
+The full search isn't a real fast nearest neighbour algorithm, it's more the default algorithm for such a problem. We
+just iterate over all $x \in S$ and calculate $d(q, x)$. After that we just take $a \in S$, so that
+$d(q, a) \le d(q, x)$ for all $x \in S$. The big advantage compared to the following algorithms is, that the full search
+works also in not metric spaces. The full search has no preprocessing.
+
+\subsection{Orchard’s Algorithm}
+
+\subsubsection{Preprocessing}
+
+\subsection{Annulus Method}
+
+\subsubsection{Preprocessing}
+
+\subsection{AESA}
+
+\subsubsection{Preprocessing}
+
+\section{Benchmarks}
+
+\subsection{Implementation}
+
+\subsection{Full Search}
+
+\subsection{Orchard’s Algorithm}
+
+\subsection{Annulus Method}
+
+\subsection{AESA}
+
+\subsection{Outcome}
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{axis}[ymin=0, xmin=0, legend pos=north west]
+			\addplot table {data/mainprocessing/fullsearch.csv};
+            \addlegendentry{FullSearch}
+            \addplot table {data/mainprocessing/orchards.csv};
+            \addlegendentry{Orchards}
+            \addplot table {data/mainprocessing/annulus.csv};
+            \addlegendentry{Annulus}
+            \addplot table {data/mainprocessing/aesa.csv};
+            \addlegendentry{AESA}
+		\end{axis}
+	\end{tikzpicture}
+\end{center}
+
 \end{document}

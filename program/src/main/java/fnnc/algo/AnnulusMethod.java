@@ -20,7 +20,7 @@ public class AnnulusMethod<T> extends FastNearestNeighbourClassificator<T, Doubl
   }
 
   /**
-   * Prepares search for nearest neighboor.
+   * Prepares search for nearest neighbour.
    */
   public void preProcessing(Collection<T> objectCollection) {
     super.preProcessing(objectCollection);

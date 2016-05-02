@@ -17,7 +17,7 @@ public abstract class FastNearestNeighbourClassificator<T, D extends Comparable<
   }
 
   /**
-   * Prepares search for nearest neighboor.
+   * Prepares search for nearest neighbour.
    */
   public void preProcessing(Collection<T> objectCollection) {
     this.objectCollection = objectCollection;
