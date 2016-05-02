@@ -4,6 +4,7 @@ A program to benchmark the calls of a distance function in one of the following 
 * Full Search
 * Orchards Algorithm
 * Annulus Method
+* AESA
 
 ## Requirements
 
@@ -31,10 +32,13 @@ fnnc.algo.FullSearch:
 	MainProcessing: 50.0
 fnnc.algo.OrchardsAlgorithm:
 	PreProcessing: 1225.0
-	MainProcessing: 19.346
+	MainProcessing: 20.24
 fnnc.algo.AnnulusMethod:
 	PreProcessing: 50.0
-	MainProcessing: 26.166
+	MainProcessing: 26.434
+fnnc.algo.Aesa:
+	PreProcessing: 1225.0
+	MainProcessing: 4.254
 ```
 The file can be loaded later without the parameters above.
 ```
@@ -46,11 +50,13 @@ fnnc.algo.FullSearch:
 	MainProcessing: 50.0
 fnnc.algo.OrchardsAlgorithm:
 	PreProcessing: 1225.0
-	MainProcessing: 19.674
+	MainProcessing: 20.208
 fnnc.algo.AnnulusMethod:
 	PreProcessing: 50.0
-	MainProcessing: 26.604
-
+	MainProcessing: 26.998
+fnnc.algo.Aesa:
+	PreProcessing: 1225.0
+	MainProcessing: 4.282
 ```
 
 ## Test
