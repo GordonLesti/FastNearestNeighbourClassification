@@ -76,10 +76,10 @@ public class Application {
     String resultString = "Size: " + problems.get(0).size() + "\nCount: " + problems.size() + "\n";
     for (int i = 0; i < algos.size(); i++) {
       double preProcessingCount = result[0][i] / problems.size();
-      double mainProcessingCount = result[1][i] / problems.size();
+      double queryProcessingCount = result[1][i] / problems.size();
       String algoName = algos.get(i).getClass().getName();
       resultString += algoName + ":\n\tPreProcessing: " + preProcessingCount
-          + "\n\tMainProcessing: " + mainProcessingCount + "\n";
+          + "\n\tQueryProcessing: " + queryProcessingCount + "\n";
     }
     return resultString;
   }

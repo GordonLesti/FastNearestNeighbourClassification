@@ -75,23 +75,28 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
     T currentObject = this.indexedObjects.get(currentIndex);
     double currentDistanceToQuery = this.distanceCalculator
         .calculateDistance(currentObject, queryObject);
+    boolean[] markBits = new boolean[this.objectCollection.size()];
     LinkedList<DistanceObjectPair<Double, Integer>> currentList =
         this.orderedLists.get(currentIndex);
     Iterator<DistanceObjectPair<Double, Integer>> iterator = currentList.iterator();
     while (iterator.hasNext()) {
       DistanceObjectPair<Double, Integer> tempDistObjPair = iterator.next();
-      T tempObject = this.indexedObjects.get(tempDistObjPair.getObject());
-      if (tempDistObjPair.getDistance() > 2 * currentDistanceToQuery) {
-        break;
-      }
-      double tempDistanceToQuery = this.distanceCalculator
-          .calculateDistance(tempObject, queryObject);
-      if (tempDistanceToQuery < currentDistanceToQuery) {
-        currentDistanceToQuery = tempDistanceToQuery;
-        currentIndex = tempDistObjPair.getObject();
-        currentObject = tempObject;
-        currentList = this.orderedLists.get(currentIndex);
-        iterator = currentList.iterator();
+      int tempIndex = tempDistObjPair.getObject();
+      if (!markBits[tempIndex]) {
+        T tempObject = this.indexedObjects.get(tempIndex);
+        if (tempDistObjPair.getDistance() > 2 * currentDistanceToQuery) {
+          break;
+        }
+        double tempDistanceToQuery = this.distanceCalculator
+            .calculateDistance(tempObject, queryObject);
+        markBits[tempIndex] = true;
+        if (tempDistanceToQuery < currentDistanceToQuery) {
+          currentDistanceToQuery = tempDistanceToQuery;
+          currentObject = tempObject;
+          currentIndex = tempIndex;
+          currentList = this.orderedLists.get(currentIndex);
+          iterator = currentList.iterator();
+        }
       }
     }
     return currentObject;

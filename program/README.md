@@ -21,7 +21,7 @@ $ gradle build
 
 The following command will write 500 sets of 50 `java.awt.geom.Point2D` test points and one query point to the file
 `data/50-500.ser`. After that it will run every algorithm against this test data and will return the mean for
-PreProcessing and MainProcessing.
+PreProcessing and QueryProcessing.
 
 ```
 $ java -jar build/libs/fnnc-1.0.jar data/50-500.ser 50 500
@@ -29,16 +29,16 @@ Size: 50
 Count: 500
 fnnc.algo.FullSearch:
 	PreProcessing: 0.0
-	MainProcessing: 50.0
+	QueryProcessing: 50.0
 fnnc.algo.OrchardsAlgorithm:
 	PreProcessing: 1225.0
-	MainProcessing: 20.24
+	QueryProcessing: 14.514
 fnnc.algo.AnnulusMethod:
 	PreProcessing: 50.0
-	MainProcessing: 26.434
+	QueryProcessing: 25.246
 fnnc.algo.Aesa:
 	PreProcessing: 1225.0
-	MainProcessing: 4.254
+	QueryProcessing: 4.212
 ```
 The file can be loaded later without the parameters above.
 ```
@@ -47,16 +47,16 @@ Size: 50
 Count: 500
 fnnc.algo.FullSearch:
 	PreProcessing: 0.0
-	MainProcessing: 50.0
+	QueryProcessing: 50.0
 fnnc.algo.OrchardsAlgorithm:
 	PreProcessing: 1225.0
-	MainProcessing: 20.208
+	QueryProcessing: 14.444
 fnnc.algo.AnnulusMethod:
 	PreProcessing: 50.0
-	MainProcessing: 26.998
+	QueryProcessing: 25.962
 fnnc.algo.Aesa:
 	PreProcessing: 1225.0
-	MainProcessing: 4.282
+	QueryProcessing: 4.2
 ```
 
 ## Test
