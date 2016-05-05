@@ -57,29 +57,35 @@ public class Application {
       LinkedList<FastNearestNeighbourClassificator<Point2D.Double, Double>> algos,
       LinkedList<LinkedList<Point2D.Double>> problems
   ) {
-    double[][] result = new double[2][algos.size()];
+    int[][][] result = new int[2][algos.size()][problems.size()];
+    int problemCount = 0;
     for (LinkedList<Point2D.Double> problem : problems) {
       Point2D.Double query = problem.poll();
       int counter = 0;
       Point2D.Double[] checkResult = new Point2D.Double[algos.size()];
       for (FastNearestNeighbourClassificator<Point2D.Double, Double> algo : algos) {
         algo.preProcessing(problem);
-        result[0][counter] += distanceCalculator.reset();
+        result[0][counter][problemCount] = distanceCalculator.reset();
         checkResult[counter] = algo.calculateNearestNeighbour(query);
-        result[1][counter] += distanceCalculator.reset();
+        result[1][counter][problemCount] += distanceCalculator.reset();
         counter++;
       }
       if (!checkResults(checkResult)) {
         return "ERROR";
       }
+      problemCount++;
     }
     String resultString = "Size: " + problems.get(0).size() + "\nCount: " + problems.size() + "\n";
     for (int i = 0; i < algos.size(); i++) {
-      double preProcessingCount = result[0][i] / problems.size();
-      double queryProcessingCount = result[1][i] / problems.size();
+      double[] preMeanAndStandardDeviation = calculateMeanAndStandardDeviation(result[0][i]);
+      double[] queryMeanAndStandardDeviation = calculateMeanAndStandardDeviation(result[1][i]);
+    //   double preProcessingCount = result[0][i] / problems.size();
+    //   double queryProcessingCount = result[1][i] / problems.size();
       String algoName = algos.get(i).getClass().getName();
-      resultString += algoName + ":\n\tPreProcessing: " + preProcessingCount
-          + "\n\tQueryProcessing: " + queryProcessingCount + "\n";
+      resultString += algoName + ":\n\tPreProcessing:\n\t\tMean: " + preMeanAndStandardDeviation[0]
+          + "\n\t\tStandardDeviation: " + preMeanAndStandardDeviation[1]
+          + "\n\tQueryProcessing:\n\t\tMean: " + queryMeanAndStandardDeviation[0]
+          + "\n\t\tStandardDeviation: " + queryMeanAndStandardDeviation[1] + "\n";
     }
     return resultString;
   }
@@ -150,6 +156,22 @@ public class Application {
       }
     }
     return true;
+  }
+
+  private static double[] calculateMeanAndStandardDeviation(int[] results) {
+    double[] meanAndStandardDeviation = new double[2];
+    meanAndStandardDeviation[0] = 0;
+    meanAndStandardDeviation[1] = 0;
+    for (int i = 0; i < results.length; i++) {
+      meanAndStandardDeviation[0] += results[i];
+    }
+    meanAndStandardDeviation[0] = meanAndStandardDeviation[0] / results.length;
+    for (int i = 0; i < results.length; i++) {
+      meanAndStandardDeviation[1] += Math.pow(meanAndStandardDeviation[0] - results[i], 2);
+    }
+    meanAndStandardDeviation[1] = Math.sqrt(meanAndStandardDeviation[1] / results.length);
+
+    return meanAndStandardDeviation;
   }
 
   private static String getUsage() {
