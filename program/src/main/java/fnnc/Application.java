@@ -94,16 +94,9 @@ public class Application {
       InputStream buffer = new BufferedInputStream(file);
       ObjectInput input = new ObjectInputStream(buffer);
     ) {
-      LinkedList<LinkedList<Point2D.Double>> problems = new LinkedList<LinkedList<Point2D.Double>>();
       @SuppressWarnings("unchecked")
-      Point2D.Double[][] problemsArray = (Point2D.Double[][]) input.readObject();
-      for (int i = 0; i < problemsArray.length; i++) {
-        LinkedList<Point2D.Double> problem = new LinkedList<Point2D.Double>();
-        for (int j = 0; j < problemsArray[i].length; j++) {
-          problem.add(problemsArray[i][j]);
-        }
-        problems.add(problem);
-      }
+      LinkedList<LinkedList<Point2D.Double>> problems =
+          (LinkedList<LinkedList<Point2D.Double>>) input.readObject();
       return problems;
     } catch (Exception e) {
       return null;
@@ -114,22 +107,12 @@ public class Application {
       String filename,
       LinkedList<LinkedList<Point2D.Double>> problems
   ) {
-    Point2D.Double[][] problemsArray = new Point2D.Double[problems.size()][problems.get(0).size()];
-    int problemIndex = 0;
-    for (LinkedList<Point2D.Double> problem : problems) {
-      int pointIndex = 0;
-      for (Point2D.Double point : problem) {
-        problemsArray[problemIndex][pointIndex] = point;
-        pointIndex++;
-      }
-      problemIndex++;
-    }
     try (
       OutputStream file = new FileOutputStream(filename);
       OutputStream buffer = new BufferedOutputStream(file);
       ObjectOutput output = new ObjectOutputStream(buffer);
     ) {
-      output.writeObject(problemsArray);
+      output.writeObject(problems);
     } catch (IOException e) {
       System.out.println("Can not write to file " + filename);
     }
