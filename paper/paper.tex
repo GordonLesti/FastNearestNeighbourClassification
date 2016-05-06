@@ -36,8 +36,9 @@ Prof. Dr. Sahin Albayrak\\
 \toctitle{Fast Nearest Neighbour Classification}
 \tocauthor{Gordon Lesti}
 \maketitle
+\pagenumbering{roman}
 
-
+\addcontentsline{toc}{section}{Abstract}
 \begin{abstract}
 This term paper is about nearest neighbour classifiers that work with the triangle inequality of metric spaces.
 Benchmarks on examples from the two-dimensional space will show the advantages and disadvantages of three known
@@ -47,61 +48,239 @@ full search. The benchmarks aren't comparing execution time, they will compare c
 \end{abstract}
 
 \tableofcontents
+\addcontentsline{toc}{section}{Table of Contents}
 
 \newpage
+\pagenumbering{arabic}
 
 \section{Introduction}
 
-\subsection{Requirements}
+\subsection{Problem}
+
+The problem of the nearest neighbour search is pretty easy described. We have a set of objects and we want to find that
+object with the smallest distance to a query object.\\
+The requirements are:
+\begin{itemize}
+	\item a set $\mathbb{U}$
+	\item a distance function $d$ on $\mathbb{U}$, with $d: \mathbb{U} \times \mathbb{U} \to \mathbb{R}$
+	\item a set $S \subset \mathbb{U}$ with size $n$
+	\item a query $q \in \mathbb{U}$
+\end{itemize}
+The solution is:
+\begin{itemize}
+	\item an $a \in S$, with $d(q, a) \le d(q, x)$ for all $x \in S$
+\end{itemize}
 
 \section{Algorithms}
+
+Every nearest neighbour search algorithm can be divided in two steps.
+\begin{itemize}
+	\item Preprocessing
+	\item Query Processing
+\end{itemize}
+In the preprocessing the algorithm prepare the given set $\mathbb{S}$ for
+their needs.\\
+The query processing is the real nearest neighbour search, the algorithms take the query $q$ and return the nearest
+neighbour $a$.
 
 \subsection{Full Search}
 
 The full search isn't a real fast nearest neighbour algorithm, it's more the default algorithm for such a problem. We
-just iterate over all $x \in S$ and calculate $d(q, x)$. After that we just take $a \in S$, so that
+just walk over all $x \in S$ and calculate $d(q, x)$. After that we just take $a \in S$, so that
 $d(q, a) \le d(q, x)$ for all $x \in S$. The big advantage compared to the following algorithms is, that the full search
-works also in not metric spaces. The full search has no preprocessing.
+works also in not metric spaces. The full search needs no preprocessing.
 
 \subsection{Orchard’s Algorithm}
 
 \subsubsection{Preprocessing}
 
+The preprocessing of the Orchard’s Algorithm has a high complexity. For every $p \in S$, we generate a list that
+contains all $x \in S\setminus\left\{ {p}\right\}$ with it's distance $d(p, x)$ and order those lists ascending to the
+distance. If we assume that the set $S$ has size $n$, the preprocessing will call the distance function
+$\frac{n(n-1)}{2}$ times and will sort $n$ lists of size $n-1$.
+
+\subsubsection{Query Processing}
+
+When calling the query processing with query $q$, we randomly select one object $c \in S$ as initial candidate and
+calculate $d(c, q)$. After that we walk over the ordered list of $c$ and with every picked $s$ from the list we
+calculate $d(l, q)$. If $d(l, q)$ is smaller than $d(c, q)$, $l$ is our new candidate $c$ and we will walk over the
+list of $l$. We abort if we reached the end of a list or if $d(c, s) > 2d(c, q)$. The current candidate $c$ is our
+nearest neighbour.
+
 \subsection{Annulus Method}
 
+The Annulus Method works a little bit similar to the Orchard’s Algorithm, but with a less complex preprocessing.
+
 \subsubsection{Preprocessing}
+
+Instead of generating a list for all $x \in S$, the Annulus Method generates just one list for a random $p^* \in S$. In
+the preprocessing we generate one list that contains all $x \in S$ with it's distance $d(p^*, x)$ and order this list
+ascending to the distance. If we assume that the set $S$ has size $n$, the preprocessing will call the distance function
+$n$ times and will sort one list of size $n$.
+
+\subsubsection{Query Processing}
+
+The query processing of the Annulus Method starts by picking a random candidate $c \in S$ from the ordered list of
+$p^*$. After that we walk alternating away from $p^*$ and back to him in the list. If the current object $s$ has
+$d(s, q) < d(c, q)$, we set $s$ as our new candidate $c$.If the current object $s$ is under $c$ in the list and
+$d(p^*, s) < d(p^*, q) - d(c, q)$, we can ignore all objects under $s$ in the list. If the current object $s$ is above
+$c$ in the list and $d(p^*, s) > d(p^*, q) + d(c, q)$, we can ignore all objects above $s$ in the list. The object $c$
+is the nearest neighbour, if the entire list is traversed.
 
 \subsection{AESA}
 
 \subsubsection{Preprocessing}
+
+\subsubsection{Query Processing}
 
 \section{Benchmarks}
 
+As described above, the following benchmarks will not compare the runtime of the mentioned algorithms. The benchmarks
+will compare the calls of the distance function that the algorithm needs for preprocessing and for finding a nearest
+neighbour. Those benchmarks can make sense when the distance function has a heavy complexity. For example the string
+metric Levenshtein distance or in higher dimensional vector spaces.\\
+In general those benchmarks are affected by the implementation, by the executing machine, by the domain of the problem
+and the distribution of the example.
+
 \subsection{Implementation}
 
-\subsection{Full Search}
+The algorithms above are all implemented in Java and can be found in the following git repository\\
+\url{https://github.com/GordonLesti/FastNearestNeighbourClassification}.\\
 
-\subsection{Orchard’s Algorithm}
+A nearest neighbour algorithm implemented in Java should handle every type of object that a set $\mathbb{U}$ can
+represent under the condition that there is a metric on $\mathbb{U}$. Because of that, a nearest neighbour algorithm
+class needs to extend from the abstract class \verb+FastNearestNeighbourClassificator+ that can be found in the package
+\verb+fnnc.algo+. The generic \verb+T+ represents an object from the set $\mathbb{U}$ and the generic \verb+D+
+represents the distance and has to be of type \verb+Comparable+ from the package \verb+java.lang+.\\
 
-\subsection{Annulus Method}
+A possible example for the type \verb+T+ can be \verb+Point2D.Double+ from the package
+\verb+java.awt.geom+ and a possible way to implement a distance function would be the euclidean distance of type
+\verb+Double+.
 
-\subsection{AESA}
+\subsubsection{FastNearestNeighbourClassificator}
 
-\subsection{Outcome}
+The abstract class\\ \verb+FastNearestNeighbourClassificator<T, D extends Comparable<D>>+ has two protected class
+variables:
+\begin{itemize}
+	\item a \verb+distanceCalculator+ of type \verb+DistanceCalculator<T, D>+
+	\item a \verb+objectCollection+ of type \verb+Collection<T>+
+\end{itemize}
+and three simple class methods:
+\begin{itemize}
+	\item a constructor that takes an object of type \verb+DistanceCalculator<T, D>+ from the package
+		\verb+fnnc.model+ and sets the protected class variable
+	\item a default function \verb+preProcessing+ that takes a \verb+Collection<T>+ from the package
+		\verb+java.util+ and sets the protected class variable
+	\item a abstract function \verb+calculateNearestNeighbour+ that takes the query object of type \verb+T+ and
+		returns the nearest neighbour object of type \verb+T+
+\end{itemize}
 
-\begin{center}
-	\begin{tikzpicture}
-		\begin{axis}[ymin=0, xmin=0, legend pos=north west]
-			\addplot table {data/mainprocessing/fullsearch.csv};
-            \addlegendentry{FullSearch}
-            \addplot table {data/mainprocessing/orchards.csv};
-            \addlegendentry{Orchards}
-            \addplot table {data/mainprocessing/annulus.csv};
-            \addlegendentry{Annulus}
-            \addplot table {data/mainprocessing/aesa.csv};
-            \addlegendentry{AESA}
-		\end{axis}
-	\end{tikzpicture}
-\end{center}
+A instance of type \verb+FastNearestNeighbourClassificator+ shouldn't and can't calculate the distance between two
+objects. Because of that we inject the \verb+DistanceCalculator+ in the constructor. All implemented algorithms exclude
+the \verb+FullSearch+ require that the \verb+DistanceCalculator+ returns a distance of type \verb+Double+ instead of
+only \verb+Comparable+.
+
+\subsubsection{DistanceCalculator}
+
+The abstract class\\ \verb+DistanceCalculator<Point2D.Double, Double>+ has just one private \verb+count+ of type
+\verb+int+ and three class methods:
+\begin{itemize}
+	\item a public final function \verb+calculateDistance+ that takes two objects of type \verb+T+, increases the
+		internal count and returns the result of \verb+internalCalculateDistance+
+	\item a public final function \verb+reset+ that resets the internal count
+	\item a protected abstract function \verb+internalCalculateDistance+ that takes two objects of type \verb+T+ and
+		returns the distance object of type \verb+D+
+\end{itemize}
+
+\subsection{Example data}
+
+The benchmarks will use a \verb+java.util.Collection+ of type\\ \verb+java.awt.geom.Point2D+ that are representing
+points in $\mathbb{R}^2$. For every size $n \in \left\{ {100, 200, \dots, 1000}\right\}$, every algorithm will get
+thousand sets with randomly generated points. The class \verb+fnnc.model.point2ddouble.DistanceCalculator+ will count
+every call of the function \verb+internalCalculateDistance+ and after all we will calculate the average of the calls for
+every algorithm.
+
+\subsection{Result}
+
+\subsubsection{Preprocessing}
+
+\begin{figure}
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[
+				ymin=0,
+				xmin=0,
+				xlabel=size of test data set $S$,
+				ylabel=average calls of distance function,
+				legend pos=outer north east]
+				\addplot table {data/preprocessing/fullsearch.csv};
+	            \addlegendentry{Full Search}
+	            \addplot table {data/preprocessing/orchards.csv};
+	            \addlegendentry{Orchards}
+	            \addplot table {data/preprocessing/annulus.csv};
+	            \addlegendentry{Annulus}
+	            \addplot table {data/preprocessing/aesa.csv};
+	            \addlegendentry{AESA}
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{The average calls of the distance function in the preprocessing depending on the size of the test data set
+		$S$ visualized with graphs.}
+	\label{fig:preprocessing:graph}
+\end{figure}
+
+\subsubsection{Query Processing}
+
+\begin{figure}
+	\begin{center}
+		\begin{tabular}{ | l | c | c | c | c |}
+			\hline
+		  	& Full Search & Orchard’s Algorithm & Annulus Method & AESA \\ \hline
+		  	100 & 100 & 20 & 46 & 4 \\ \hline
+			200 & 200 & 26 & 82 & 4 \\ \hline
+			300 & 300 & 30 & 122 & 4 \\ \hline
+			400 & 400 & 35 & 157 & 4 \\ \hline
+			500 & 500 & 39 & 190 & 4 \\ \hline
+			600 & 600 & 42 & 222 & 4 \\ \hline
+			700 & 700 & 44 & 269 & 4 \\ \hline
+			800 & 800 & 46 & 302 & 4 \\ \hline
+			900 & 900 & 50 & 334 & 4 \\ \hline
+			1000 & 1000 & 52 & 373 & 4 \\ \hline
+			1100 & 1100 & 55 & 418 & 4 \\ \hline
+			1200 & 1200 & 56 & 433 & 4 \\ \hline
+			1300 & 1300 & 59 & 477 & 4 \\ \hline
+			1400 & 1400 & 62 & 510 & 4 \\ \hline
+			1500 & 1500 & 64 & 544 & 4 \\ \hline
+			1600 & 1600 & 63 & 587 & 4 \\ \hline
+			1700 & 1700 & 66 & 607 & 4 \\ \hline
+			1800 & 1800 & 69 & 667 & 4 \\ \hline
+			1900 & 1900 & 72 & 716 & 4 \\ \hline
+			2000 & 2000 & 73 & 714 & 4 \\ \hline
+		\end{tabular}
+	\end{center}
+	\caption{The average calls of the distance function in the query processing depending on the size of the test data
+		set $S$.}
+	\label{fig:queryprocessing:tabular}
+\end{figure}
+
+\begin{figure}
+	\begin{center}
+		\begin{tikzpicture}
+			\begin{axis}[ymin=0, xmin=0, legend pos=outer north east]
+				\addplot table {data/queryprocessing/fullsearch.csv};
+	            \addlegendentry{Full Search}
+	            \addplot table {data/queryprocessing/orchards.csv};
+	            \addlegendentry{Orchards}
+	            \addplot table {data/queryprocessing/annulus.csv};
+	            \addlegendentry{Annulus}
+	            \addplot table {data/queryprocessing/aesa.csv};
+	            \addlegendentry{AESA}
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{The average calls of the distance function in the query processing depending on the size of the test data
+		set $S$ visualized with graphs.}
+	\label{fig:queryprocessing:graph}
+\end{figure}
 
 \end{document}
