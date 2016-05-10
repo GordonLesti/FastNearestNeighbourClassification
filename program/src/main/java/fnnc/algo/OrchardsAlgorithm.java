@@ -15,14 +15,17 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
 
   private HashMap<Integer, LinkedList<DistanceObjectPair<Double, Integer>>> orderedLists;
   private HashMap<Integer, T> indexedObjects;
+  private boolean useMarkBits;
 
   /**
    * Creates an OrchardsAlgorithm object.
    */
   public OrchardsAlgorithm(
-      DistanceCalculator<T, Double> distanceCalculator
+      DistanceCalculator<T, Double> distanceCalculator,
+      boolean useMarkBits
   ) {
     super(distanceCalculator);
+    this.useMarkBits = useMarkBits;
   }
 
   /**
@@ -82,7 +85,7 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
     while (iterator.hasNext()) {
       DistanceObjectPair<Double, Integer> tempDistObjPair = iterator.next();
       int tempIndex = tempDistObjPair.getObject();
-      if (!markBits[tempIndex]) {
+      if (!this.useMarkBits || !markBits[tempIndex]) {
         T tempObject = this.indexedObjects.get(tempIndex);
         if (tempDistObjPair.getDistance() > 2 * currentDistanceToQuery) {
           break;

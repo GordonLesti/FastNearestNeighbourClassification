@@ -140,7 +140,8 @@ public class Application {
     LinkedList<FastNearestNeighbourClassificator<Point2D.Double, Double>> algos =
         new LinkedList<FastNearestNeighbourClassificator<Point2D.Double, Double>>();
     algos.add(new FullSearch<Point2D.Double, Double>(distanceCalculator));
-    algos.add(new OrchardsAlgorithm<Point2D.Double>(distanceCalculator));
+    algos.add(new OrchardsAlgorithm<Point2D.Double>(distanceCalculator, false));
+    algos.add(new OrchardsAlgorithm<Point2D.Double>(distanceCalculator, true));
     algos.add(new AnnulusMethod<Point2D.Double>(distanceCalculator));
     algos.add(new Aesa<Point2D.Double>(distanceCalculator));
 
