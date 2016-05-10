@@ -119,14 +119,14 @@ Search needs no preprocessing.
 
 \subsection{Orchard’s Algorithm}
 
-\subsubsection{Preprocessing}
+\paragraph{Preprocessing}
 
 The preprocessing of the Orchard’s Algorithm has a high complexity. For every $p \in S$, the algorithm will generate a
 list that contains all $x \in S\setminus\left\{ {p}\right\}$ with their distance $D(p, x)$. Those lists will be ordered
 ascending to the distance. For a set $S$ with size $n$, the preprocessing will call the distance function
 $\frac{n(n-1)}{2}$ times and will sort $n$ lists of size $n-1$.
 
-\subsubsection{Query Processing}
+\paragraph{Query Processing}
 
 When calling the query processing with query $q$, the algorithm will randomly select one object $c \in S$ as initial
 candidate and calculate $D(c, q)$. Afterwards the algorithm walks over the ordered list of $c$ and with every picked $s$
@@ -134,18 +134,24 @@ from the list the algorithm calculates $D(l, q)$. If $D(l, q)$ is smaller than $
 and the algorithm walks over the list of $l$. The algorithm aborts if it reaches the end of a list or if
 $D(c, s) > 2D(c, q)$. The current candidate $c$ is the nearest neighbour.
 
+\subsubsection{Orchard’s Algorithm with marked bits}
+
+There exists a improved version of the Orchard’s Algorithm to ensure that no distance between an item $x \in S$ and $q$
+is calculated twice. This can achieved by boolean flags for every item in the query processing of the Orchard’s
+Algorithm.
+
 \subsection{Annulus Method}
 
 The Annulus Method works a little bit similar to the Orchard’s Algorithm, but with a less complex preprocessing.
 
-\subsubsection{Preprocessing}
+\paragraph{Preprocessing}
 
 Instead of generating a list for all $x \in S$, the Annulus Method generates just one list for a random $p^* \in S$. In
 the preprocessing the algorithm generates one list that contains all $x \in S$ with their distance $D(p^*, x)$. This
 list will be ordered ascending to the distance. For a set $S$ with size $n$, the preprocessing will call the distance
 function $n$ times and will sort one list of size $n$.
 
-\subsubsection{Query Processing}
+\paragraph{Query Processing}
 
 The query processing of the Annulus Method starts by picking a random candidate $c \in S$ from the ordered list of
 $p^*$. Afterwards the algorithm walks alternating away from $p^*$ and back to him in the list. If the current object $s$
@@ -156,7 +162,7 @@ $s$ in the list. The object $c$ is the nearest neighbour, if the entire list is 
 
 \subsection{AESA}
 
-\subsubsection{Preprocessing}
+\paragraph{Preprocessing}
 
 The preprocessing for the AESA is starting the same way as the preprocessing of the Orchard’s Algorithm. The algorithm
 calculates the distance $D(x, y)$ of every $x \in S$ to every $y \in S\setminus\left\{ {x}\right\}$. But instead of
@@ -164,7 +170,7 @@ writing those distances into lists and sorting them, the algorithm writes those 
 quickly. For a set $S$ with size $n$, the preprocessing will call the distance function $\frac{n(n-1)}{2}$ times and
 will sort $n$ lists of size $n-1$.
 
-\subsubsection{Query Processing}
+\paragraph{Query Processing}
 
 When starting with the query processing, the algorithm generates a list for all objects $x \in S$ with a bounded
 distance $D_P(x, q) = -\infty$ and initialize $r = \infty$ as smallest distance to $q$. Afterwards the algorithm
@@ -183,19 +189,21 @@ As described above, the following benchmarks will not compare the runtime of the
 will compare the calls of the distance function that the algorithm needs for preprocessing and for finding a nearest
 neighbour. Those benchmarks can make sense when the distance function has a heavy complexity. For example the string
 metric Levenshtein distance or in higher dimensional vector spaces.\\
-In general a benchmark is affected by the implementation, by the executing machine, by the domain of the problem
-and the distribution of the example. As the following benchmarks only counting the calls of the distance function, they
-aren't affected by the implementation or the executing machine.
+In general a benchmark is affected by the implementation, by the programming language, by the executing machine, by the
+domain of the problem and the distribution of the example. As the following benchmarks only counting the calls of the
+distance function, they are not affected by the programming language or the executing machine.
 
 \subsection{Implementation}
 
-The algorithms above are all implemented in Java and can be found in the following git repository\\
-\url{https://github.com/GordonLesti/FastNearestNeighbourClassification}.\\
+The algorithms above are all implemented in Java and can be found in the following git
+repository\footnote[1]{\url{https://github.com/GordonLesti/FastNearestNeighbourClassification}}.\\
+Since the benchmakrs are independed from the programming language and the executing machine, they use sometimes not the
+most effective data structures, but that never effects the logical flow of the algorithms.\\
 
 A nearest neighbour algorithm implemented in Java should handle every type of object that a set $\mathbb{U}$ can
 represent under the condition that there is a metric on $\mathbb{U}$. Because of that, a nearest neighbour algorithm
 class needs to extend from the abstract class\\ \verb+FastNearestNeighbourClassificator<T, D extends Comparable<D>>+
-that can be found in the package \verb+fnnc.algo+. The generic \verb+T+ represents an object from the set $\mathbb{U}$
+that\\ can be found in the package \verb+fnnc.algo+. The generic \verb+T+ represents an object from the set $\mathbb{U}$
 and the generic \verb+D+ represents the distance and has to be of type \verb+Comparable+ from the package
 \verb+java.lang+.\\
 
@@ -205,7 +213,7 @@ A possible example for the type \verb+T+ can be \verb+Point2D.Double+ from the p
 
 \subsubsection{FastNearestNeighbourClassificator}
 
-The abstract class\\ \verb+FastNearestNeighbourClassificator<T, D extends Comparable<D>>+ has two protected class
+The abstract class\\ \verb+FastNearestNeighbourClassificator<T, D extends Comparable<D>>+ has\\ two protected class
 variables:
 \begin{itemize}
 	\item a \verb+distanceCalculator+ of type \verb+DistanceCalculator<T, D>+
@@ -221,11 +229,11 @@ and three simple class methods:
 		returns the nearest neighbour object of type \verb+T+
 \end{itemize}
 
-A instance of type \verb+FastNearestNeighbourClassificator+ shouldn't and can't calculate the distance between two
-objects. So that a instance of \verb+DistanceCalculator+ should be injected into the constructor. All implemented
-algorithms exclude the \verb+FullSearch+ require that the \verb+DistanceCalculator+ returns a distance of type
-\verb+Double+ instead of only \verb+Comparable+. This is connected with the fact that only the Full Search can operate
-in a not metric space.
+A instance of type \verb+FastNearestNeighbourClassificator+ should not be allowed and can not calculate the distance
+between two objects. So that a instance of \verb+DistanceCalculator+ should be injected into the constructor. All
+implemented algorithms exclude the \verb+FullSearch+ require that the\\ \verb+DistanceCalculator+ returns a distance of
+type \verb+Double+ instead of only\\ \verb+Comparable+. This is connected with the fact that only the Full Search can
+operate in a not metric space.
 
 \subsubsection{DistanceCalculator}
 
@@ -233,7 +241,7 @@ The abstract class\\ \verb+DistanceCalculator<Point2D.Double, Double>+ has just 
 \verb+int+ and three class methods:
 \begin{itemize}
 	\item a public final function \verb+calculateDistance+ that takes two objects of type \verb+T+, increases the
-		internal count and returns the result of \verb+internalCalculateDistance+
+		internal count and returns the result of\\ \verb+internalCalculateDistance+
 	\item a public final function \verb+reset+ that resets the internal count
 	\item a protected abstract function \verb+internalCalculateDistance+ that takes two objects of type \verb+T+ and
 		returns the distance object of type \verb+D+
@@ -251,9 +259,13 @@ average of the calls for every algorithm.
 
 \subsubsection{Preprocessing}
 
+The results of the preprocessing are static. Figure~\ref{fig:preprocessing:tabular} and
+figure~\ref{fig:preprocessing:graph} summarizing again the complexity of the preprocessing for every algorithm
+depending on the size of set $S$.
+
 \begin{figure}
 	\begin{center}
-		\begin{tabular}{ | l | c | c | c | c | c |}
+		\begin{tabular}{| l | c | c | c | c | c |}
 			\hline
 		  	& Full Search & Orchard & Orchard MarkBits & Annulus & AESA \\ \hline
 		  	$n$ & 0 & $\frac{n(n-1)}{2}$ & $\frac{n(n-1)}{2}$ & $n$ & $\frac{n(n-1)}{2}$ \\ \hline
@@ -296,7 +308,7 @@ average of the calls for every algorithm.
 
 \begin{figure}
 	\begin{center}
-		\begin{tabular}{ | l | c | c | c | c | c |}
+		\begin{tabular}{| l | c | c | c | c | c |}
 			\hline
 		  	& Full Search & Orchard & Orchard MarkBits & Annulus & AESA \\ \hline
 		  	100 & 100 & 29 & 20 & 46 & 4 \\ \hline
@@ -362,7 +374,7 @@ start with random initialization have fluctuating results, but especially the An
 
 \begin{figure}
 	\begin{center}
-		\begin{tabular}{ | l | c | c | c | c | c |}
+		\begin{tabular}{| l | c | c | c | c | c |}
 			\hline
 		  	& Full Search & Orchard & Orchard MarkBits & Annulus & AESA \\ \hline
 		  	100 & 0 & 13 & 8 & 23 & 1 \\ \hline
@@ -419,5 +431,21 @@ start with random initialization have fluctuating results, but especially the An
 		size of the test data set $S$ visualized with graphs.}
 	\label{fig:standarddeviation:graph}
 \end{figure}
+
+\section{Conclusions}
+
+\paragraph{Full Search} The results may leave the impression that the Full Search is not a good choice. But this
+algorithm remains useful if the set $S$ changes completely or when $\mathbb{U}$ is no metric space.
+
+\paragraph{Annulus Method} The Annulus Method has a very complex query processing that
+
+\paragraph{Orchard’s Algorithm with and without marking bits} In the query processing the Orchard’s Algorithm with
+marking bits consumed on average only 66\% of the distance function calls that the algorithm needed without marking
+bits.
+
+\section{Future work}
+
+The LAESA algorithm and Metric Trees are missing in the benchmarks above. Both approaches are promising and their
+results compared to algorithms of this paper would be interesting.
 
 \end{document}
