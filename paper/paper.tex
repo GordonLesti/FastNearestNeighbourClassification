@@ -22,8 +22,8 @@
 Intelligente Software-Systeme\\
 Sommersemester 2015\\\vspace{1\baselineskip}
 Stefan Fricke\\\vspace{2\baselineskip}
-April 2016\\
-Betreuer: Stephan Spiegel\\\vspace{1\baselineskip}}}}
+May 2016\\
+Supervisor: Stephan Spiegel\\\vspace{1\baselineskip}}}}
 
 \titlerunning{Fast Nearest Neighbour Classification}
 
@@ -59,7 +59,9 @@ function is the focus of the benchmarks.
 
 \section{Introduction}
 
-HERE COMES THE INTRODUCTION.
+Kenneth L. Clarkson wrote the paper \textit{Nearest-Neighbor Searching and Metric Space Dimensions}[1] which deals
+amongst other approaches with the topic nearest neighbour search algorithms that use the triangle inequality. This paper
+focuses on three of them.
 
 \subsection{Description of the problem}
 
@@ -81,7 +83,7 @@ The solution is:
 
 Every nearest neighbour search algorithm can be divided into two steps.
 \paragraph{Preprocessing}
-During the preprocessing the algorithm prepares the given set $\mathbb{S}$ for his needs.
+During the preprocessing the algorithm prepares the given set $\mathbb{S}$ for its needs.
 
 \paragraph{Query Processing}
 The query processing is the main nearest neighbour search, the algorithm takes the query $q$ as input and works on the
@@ -115,7 +117,7 @@ to find the nearest neighbour in a given $S$ of size $n$.\\
 \end{algorithm}
 
 The advantage compared to the following algorithms is, that the Full Search works also in not metric spaces. The Full
-Search needs no preprocessing.
+Search does not need a preprocessing.
 
 \subsection{Orchard’s Algorithm}
 
@@ -128,37 +130,35 @@ $\frac{n(n-1)}{2}$ times and will sort $n$ lists of size $n-1$.
 
 \paragraph{Query Processing}
 
-When calling the query processing with query $q$, the algorithm will randomly select one object $c \in S$ as initial
+When calling the query processing with query $q$, the algorithm will randomly select one item $c \in S$ as initial
 candidate and calculate $D(c, q)$. Afterwards the algorithm walks over the ordered list of $c$ and with every picked $s$
-from the list the algorithm calculates $D(l, q)$. If $D(l, q)$ is smaller than $D(c, q)$, $l$ is the new candidate $c$
-and the algorithm walks over the list of $l$. The algorithm aborts if it reaches the end of a list or if
-$D(c, s) > 2D(c, q)$. The current candidate $c$ is the nearest neighbour.
+from the list the algorithm calculates $D(l, q)$. Item $l$ is the new candidate $c$ if $D(l, q)$ is smaller than
+$D(c, q)$. Thereafter the algorithm walks over the list of $l$. The algorithm interupts if it reaches the end of a list
+or if $D(c, s) > 2D(c, q)$. The current candidate $c$ is the nearest neighbour.
 
 \subsubsection{Orchard’s Algorithm with marked bits}
 
-There exists a improved version of the Orchard’s Algorithm to ensure that no distance between an item $x \in S$ and $q$
-is calculated twice. This can achieved by boolean flags for every item in the query processing of the Orchard’s
+There is a improved version of the Orchard’s Algorithm to ensure that no distance between an item $x \in S$ and $q$
+is calculated twice. This can be achieved by boolean flags for every item during query processing of the Orchard’s
 Algorithm.
 
 \subsection{Annulus Method}
 
-The Annulus Method works a little bit similar to the Orchard’s Algorithm, but with a less complex preprocessing.
-
 \paragraph{Preprocessing}
 
-Instead of generating a list for all $x \in S$, the Annulus Method generates just one list for a random $p^* \in S$. In
-the preprocessing the algorithm generates one list that contains all $x \in S$ with their distance $D(p^*, x)$. This
+Instead of generating a list for all $x \in S$, the Annulus Method generates just one list for a random $p^* \in S$.
+During preprocessing the algorithm generates one list which contains all $x \in S$ with their distance $D(p^*, x)$. This
 list will be ordered ascending to the distance. For a set $S$ with size $n$, the preprocessing will call the distance
 function $n$ times and will sort one list of size $n$.
 
 \paragraph{Query Processing}
 
 The query processing of the Annulus Method starts by picking a random candidate $c \in S$ from the ordered list of
-$p^*$. Afterwards the algorithm walks alternating away from $p^*$ and back to him in the list. If the current object $s$
-has $D(s, q) < D(c, q)$, the algorithm sets $s$ as the new candidate $c$. If the current object $s$ is under $c$ in the
-list and $D(p^*, s) < D(p^*, q) - D(c, q)$, the algorithm can ignore all objects under $s$ in the list. If the current
-object $s$ is above $c$ in the list and $D(p^*, s) > D(p^*, q) + D(c, q)$, the algorithm can ignore all objects above
-$s$ in the list. The object $c$ is the nearest neighbour, if the entire list is traversed.
+$p^*$. Afterwards the algorithm walks alternating away from $p^*$ and back to it in the list. If the current item $s$
+has $D(s, q) < D(c, q)$, the algorithm sets $s$ as the new candidate $c$. If the current item $s$ is under $c$ in the
+list and $D(p^*, s) < D(p^*, q) - D(c, q)$, all items under $s$ in the list will be ignored. If the current
+item $s$ is above $c$ in the list and $D(p^*, s) > D(p^*, q) + D(c, q)$, the algorithm will ignore all items above
+$s$ in the list. The item $c$ is the nearest neighbour, if the entire list is traversed.
 
 \subsection{AESA}
 
@@ -172,11 +172,11 @@ will sort $n$ lists of size $n-1$.
 
 \paragraph{Query Processing}
 
-When starting with the query processing, the algorithm generates a list for all objects $x \in S$ with a bounded
+When starting with the query processing, the algorithm generates a list for all items $x \in S$ with a bounded
 distance $D_P(x, q) = -\infty$ and initialize $r = \infty$ as smallest distance to $q$. Afterwards the algorithm
 iterates the following steps until the list is empty.
 \begin{itemize}
-	\item pick and remove $x$ from the list with the smallest $D_p(x, q)$ or a random one in the first iteration
+	\item pick and remove $x$ from the list with the smallest $D_p(x, q)$ or a random one during first iteration
 	\item calculate $D(x, q)$
 	\item set $r = D(x, q)$ if $r > D(x, q)$ and remember $x$ as current nearest neighbour
 	\item for all $y$ from the list, set $D_P(y, q) = max(D_P(y, q), |D(x, q) - D(x, y)|)$ and remove $y$ from the list
@@ -187,20 +187,21 @@ iterates the following steps until the list is empty.
 
 As described above, the following benchmarks will not compare the runtime of the mentioned algorithms. The benchmarks
 will compare the calls of the distance function that the algorithm needs for preprocessing and for finding a nearest
-neighbour. Those benchmarks can make sense when the distance function has a heavy complexity. For example the string
+neighbour. Those benchmarks are useful when the distance function has a heavy complexity. For example the string
 metric Levenshtein distance or in higher dimensional vector spaces.\\
 In general a benchmark is affected by the implementation, by the programming language, by the executing machine, by the
 domain of the problem and the distribution of the example. As the following benchmarks only counting the calls of the
-distance function, they are not affected by the programming language or the executing machine.
+distance function its are not affected by the programming language or the executing machine.
 
 \subsection{Implementation}
 
 The algorithms above are all implemented in Java and can be found in the following git
 repository\footnote[1]{\url{https://github.com/GordonLesti/FastNearestNeighbourClassification}}.\\
-Since the benchmakrs are independed from the programming language and the executing machine, they use sometimes not the
-most effective data structures, but that never effects the logical flow of the algorithms.\\
+Since the benchmarks are independed from the programming language and the executing machine, the implementation of the
+algorithms uses sometimes not the most effective data structures. But that never effects the logical flow of the
+algorithms.\\
 
-A nearest neighbour algorithm implemented in Java should handle every type of object that a set $\mathbb{U}$ can
+A nearest neighbour algorithm implemented in Java should handle every type of objects that a set $\mathbb{U}$ can
 represent under the condition that there is a metric on $\mathbb{U}$. Because of that, a nearest neighbour algorithm
 class needs to extend from the abstract class\\ \verb+FastNearestNeighbourClassificator<T, D extends Comparable<D>>+
 that\\ can be found in the package \verb+fnnc.algo+. The generic \verb+T+ represents an object from the set $\mathbb{U}$
@@ -229,8 +230,8 @@ and three simple class methods:
 		returns the nearest neighbour object of type \verb+T+
 \end{itemize}
 
-A instance of type \verb+FastNearestNeighbourClassificator+ should not be allowed and can not calculate the distance
-between two objects. So that a instance of \verb+DistanceCalculator+ should be injected into the constructor. All
+An instance of type \verb+FastNearestNeighbourClassificator+ should not be allowed and can not calculate the distance
+between two objects. So that an instance of \verb+DistanceCalculator+ should be injected into the constructor. All
 implemented algorithms exclude the \verb+FullSearch+ require that the\\ \verb+DistanceCalculator+ returns a distance of
 type \verb+Double+ instead of only\\ \verb+Comparable+. This is connected with the fact that only the Full Search can
 operate in a not metric space.
@@ -271,7 +272,7 @@ depending on the size of set $S$.
 		  	$n$ & 0 & $\frac{n(n-1)}{2}$ & $\frac{n(n-1)}{2}$ & $n$ & $\frac{n(n-1)}{2}$ \\ \hline
 		\end{tabular}
 	\end{center}
-	\caption{The calls of the distance function $D$ in the preprocessing depending on the size $n$ of the test data set
+	\caption{The calls of the distance function $D$ during preprocessing depending on the size $n$ of the test data set
 		$S$.}
 	\label{fig:preprocessing:tabular}
 \end{figure}
@@ -299,12 +300,15 @@ depending on the size of set $S$.
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
-	\caption{The average calls of the distance function $D$ in the preprocessing depending on the size of the test data
+	\caption{The average calls of the distance function $D$ during preprocessing depending on the size of the test data
 		set $S$ visualized with graphs.}
 	\label{fig:preprocessing:graph}
 \end{figure}
 
 \subsubsection{Query Processing}
+
+Figure~\ref{fig:queryprocessing:tabular} and figure~\ref{fig:queryprocessing:graph} show the results of the query
+processing for all algorithms.
 
 \begin{figure}
 	\begin{center}
@@ -333,7 +337,7 @@ depending on the size of set $S$.
 			2000 & 2000 & 113 & 73 & 740 & 4 \\ \hline
 		\end{tabular}
 	\end{center}
-	\caption{The average calls of the distance function $D$ in the query processing depending on the size of the test
+	\caption{The average calls of the distance function $D$ during query processing depending on the size of the test
 		data set $S$.}
 	\label{fig:queryprocessing:tabular}
 \end{figure}
@@ -361,16 +365,16 @@ depending on the size of set $S$.
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
-	\caption{The average calls of the distance function $D$ in the query processing depending on the size of the test
+	\caption{The average calls of the distance function $D$ during query processing depending on the size of the test
 		data set $S$ visualized with graphs.}
 	\label{fig:queryprocessing:graph}
 \end{figure}
 
 \paragraph{Standard deviation}
 
-As I saw that some of the algorithms needed more and more tries to stabilize the average result, I have calculated for
-every size of a set and every algorithm the standard deviation. In general it is no big surprise that algorithms that
-start with random initialization have fluctuating results, but especially the Annulus Method was very fragile.
+Some of the algorithms needed more and more tries to stabilize the average result of the query processing.
+Figure~\ref{fig:standarddeviation:tabular} and figure~\ref{fig:standarddeviation:graph} show the standard deviation of
+the results for every algorithm depending on the size of set $S$.
 
 \begin{figure}
 	\begin{center}
@@ -399,7 +403,7 @@ start with random initialization have fluctuating results, but especially the An
 			2000 & 0 & 52 & 33 & 487 & 1 \\ \hline
 		\end{tabular}
 	\end{center}
-	\caption{The standard deviation of the calls of the distance function $D$ in the query processing depending on the
+	\caption{The standard deviation of the calls of the distance function $D$ during query processing depending on the
 		size of the test data set $S$.}
 	\label{fig:standarddeviation:tabular}
 \end{figure}
@@ -427,7 +431,7 @@ start with random initialization have fluctuating results, but especially the An
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
-	\caption{The standard deviation of the calls of the distance function $D$ in the query processing depending on the
+	\caption{The standard deviation of the calls of the distance function $D$ during query processing depending on the
 		size of the test data set $S$ visualized with graphs.}
 	\label{fig:standarddeviation:graph}
 \end{figure}
@@ -435,17 +439,29 @@ start with random initialization have fluctuating results, but especially the An
 \section{Conclusions}
 
 \paragraph{Full Search} The results may leave the impression that the Full Search is not a good choice. But this
-algorithm remains useful if the set $S$ changes completely or when $\mathbb{U}$ is no metric space.
+algorithm remains useful if the set $S$ changes completely with every new query or when $\mathbb{U}$ is no metric space.
 
-\paragraph{Annulus Method} The Annulus Method has a very complex query processing that
+\paragraph{Annulus Method} The Annulus Method has a very complex query processing. But on a frequently changing set $S$
+a affordable preprocessing. Other algorithms with more complex preprocessing maybe hit its limits on huge sets that
+can be handled by the Annulus Method. The Annulus Method was the algorithm with the highest standard deviation during
+the benchmarks.
 
-\paragraph{Orchard’s Algorithm with and without marking bits} In the query processing the Orchard’s Algorithm with
+\paragraph{Orchard’s Algorithm with and without marking bits} During query processing the Orchard’s Algorithm with
 marking bits consumed on average only 66\% of the distance function calls that the algorithm needed without marking
 bits.
+
+\paragraph{AESA} Depending on the benchmarks above, the AESA should be preferred instead of the Orchard’s Algorithm.
+Both algorithms have a very complex preprocessing that may not work on very huge sets. But the AESA consumes more less
+calls of the distance function. The impact on real world applications should be tested. Beside the Full Search the AESA
+was the most stable algorithm.
 
 \section{Future work}
 
 The LAESA algorithm and Metric Trees are missing in the benchmarks above. Both approaches are promising and their
 results compared to algorithms of this paper would be interesting.
+
+\begin{thebibliography}{4}
+	\bibitem{url} Kenneth L. Clarkson, \"Nearest-Neighbor Searching and Metric Space Dimensions\" (October 2005), \url{http://kenclarkson.org/nn_survey/p.pdf}
+\end{thebibliography}
 
 \end{document}
