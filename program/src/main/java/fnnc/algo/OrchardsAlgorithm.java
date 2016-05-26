@@ -105,6 +105,9 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
     return currentObject;
   }
 
+  /**
+   * Returns the name of the algorithm.
+   */
   public String getName() {
     String name = "Orchard";
     if (this.useMarkBits) {
