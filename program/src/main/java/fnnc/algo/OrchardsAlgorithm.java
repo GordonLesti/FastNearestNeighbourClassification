@@ -1,7 +1,7 @@
 package fnnc.algo;
 
-import fnnc.model.DistanceCalculator;
-import fnnc.model.DistanceObjectPair;
+import fnnc.algo.model.DistanceObjectPair;
+import fnnc.dist.DistanceCalculator;
 
 import java.lang.Comparable;
 import java.util.Collection;
@@ -103,5 +103,13 @@ public class OrchardsAlgorithm<T> extends FastNearestNeighbourClassificator<T, D
       }
     }
     return currentObject;
+  }
+
+  public String getName() {
+    String name = "Orchard";
+    if (this.useMarkBits) {
+      name += " MarkBits";
+    }
+    return name;
   }
 }

@@ -5,7 +5,7 @@ import fnnc.algo.AnnulusMethod;
 import fnnc.algo.FastNearestNeighbourClassificator;
 import fnnc.algo.FullSearch;
 import fnnc.algo.OrchardsAlgorithm;
-import fnnc.model.point2ddouble.DistanceCalculator;
+import fnnc.app.DistanceCalculator;
 
 import java.awt.geom.Point2D;
 import java.io.BufferedInputStream;
@@ -79,7 +79,7 @@ public class Application {
     for (int i = 0; i < algos.size(); i++) {
       double[] preMeanAndStandardDeviation = calculateMeanAndStandardDeviation(result[0][i]);
       double[] queryMeanAndStandardDeviation = calculateMeanAndStandardDeviation(result[1][i]);
-      String algoName = algos.get(i).getClass().getName();
+      String algoName = algos.get(i).getName();
       resultString += algoName + ":\n\tPreProcessing:\n\t\tMean: " + preMeanAndStandardDeviation[0]
           + "\n\t\tStandardDeviation: " + preMeanAndStandardDeviation[1]
           + "\n\tQueryProcessing:\n\t\tMean: " + queryMeanAndStandardDeviation[0]

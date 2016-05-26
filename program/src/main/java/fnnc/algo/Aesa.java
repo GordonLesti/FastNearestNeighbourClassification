@@ -1,7 +1,7 @@
 package fnnc.algo;
 
-import fnnc.model.DistanceCalculator;
-import fnnc.model.DistanceObjectPair;
+import fnnc.algo.model.DistanceObjectPair;
+import fnnc.dist.DistanceCalculator;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -91,5 +91,9 @@ public class Aesa<T> extends FastNearestNeighbourClassificator<T, Double> {
       unknownList.remove(pair);
     }
     return nearestNeighbour;
+  }
+
+  public String getName() {
+    return "AESA";
   }
 }

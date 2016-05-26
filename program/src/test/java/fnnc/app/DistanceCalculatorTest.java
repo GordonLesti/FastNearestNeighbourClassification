@@ -1,6 +1,6 @@
 import static org.junit.Assert.assertEquals;
 
-import fnnc.model.point2ddouble.DistanceCalculator;
+import fnnc.app.DistanceCalculator;
 import org.junit.Test;
 
 import java.awt.geom.Point2D;

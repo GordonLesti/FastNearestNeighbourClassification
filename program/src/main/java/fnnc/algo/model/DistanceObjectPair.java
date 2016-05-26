@@ -1,4 +1,4 @@
-package fnnc.model;
+package fnnc.algo.model;
 
 public class DistanceObjectPair<D extends Comparable<D>, T>
     implements Comparable<DistanceObjectPair<D, T>> {

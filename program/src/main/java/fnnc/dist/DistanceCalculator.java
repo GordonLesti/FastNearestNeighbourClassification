@@ -1,4 +1,4 @@
-package fnnc.model;
+package fnnc.dist;
 
 import java.lang.Comparable;
 

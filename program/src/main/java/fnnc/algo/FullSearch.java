@@ -1,6 +1,6 @@
 package fnnc.algo;
 
-import fnnc.model.DistanceCalculator;
+import fnnc.dist.DistanceCalculator;
 
 import java.lang.Comparable;
 import java.util.Collection;
@@ -26,5 +26,9 @@ public class FullSearch<T, D extends Comparable<D>>
       }
     }
     return nearestNeighbour;
+  }
+
+  public String getName() {
+    return "FullSearch";
   }
 }

@@ -1,6 +1,6 @@
 package fnnc.algo;
 
-import fnnc.model.DistanceCalculator;
+import fnnc.dist.DistanceCalculator;
 
 import java.lang.Comparable;
 import java.util.Collection;
@@ -27,4 +27,9 @@ public abstract class FastNearestNeighbourClassificator<T, D extends Comparable<
    * Calculates the nearest neighbour of the given query object.
    */
   public abstract T calculateNearestNeighbour(T queryObject);
+
+  /**
+   * Returns the name of the algorithm.
+   */
+  public abstract String getName();
 }

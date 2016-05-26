@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import fnnc.model.DistanceObjectPair;
+import fnnc.algo.model.DistanceObjectPair;
 import org.junit.Before;
 import org.junit.Test;
 

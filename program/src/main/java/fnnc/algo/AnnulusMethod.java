@@ -1,7 +1,7 @@
 package fnnc.algo;
 
-import fnnc.model.DistanceCalculator;
-import fnnc.model.DistanceObjectPair;
+import fnnc.algo.model.DistanceObjectPair;
+import fnnc.dist.DistanceCalculator;
 
 import java.lang.Comparable;
 import java.util.Collection;
@@ -96,5 +96,9 @@ public class AnnulusMethod<T> extends FastNearestNeighbourClassificator<T, Doubl
       }
     }
     return objectC;
+  }
+
+  public String getName() {
+    return "Annulus";
   }
 }
