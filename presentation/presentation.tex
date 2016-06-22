@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 \usepackage[utf8]{inputenc}
 \usepackage{default}
@@ -8,67 +8,67 @@
 \begin{document}
 \title{Fast Nearest Neighbour Classification}
 \author{Gordon Lesti}
-\date{17.07.2015}
+\date{July 17, 2015}
 
 \frame{\titlepage}
-\frame{\frametitle{Gliederung}\tableofcontents}
+\frame{\frametitle{Structure}\tableofcontents}
 
-\section{Einleitung}
+\section{Introduction}
 
 \subsection{Problem}
 \begin{frame}
- \frametitle{Nearest-Neighbor Searching}
- \begin{block}{Gegeben}
+ \frametitle{Nearest-Neighbour Searching}
+ \begin{block}{Input}
    \begin{itemize}
-    \item Menge $\mathbb{U}$
+    \item Set $\mathbb{U}$
     \pause
-    \item Abstandsmaß $d$ auf $\mathbb{U}$, mit $d: \mathbb{U} \times \mathbb{U} \to \mathbb{R}$
+    \item Distance function $d$ on $\mathbb{U}$, with $d: \mathbb{U} \times \mathbb{U} \to \mathbb{R}$
     \pause
-    \item Menge $S \subset \mathbb{U}$ der Größe $n$
+    \item Set $S \subset \mathbb{U}$ of size $n$
     \pause
-    \item Anfragepunkt $q \in \mathbb{U}$
+    \item Query item $q \in \mathbb{U}$
   \end{itemize}
  \end{block}
  \pause
- \begin{block}{Gesucht}
+ \begin{block}{Output}
     \begin{itemize}
-     \item $a \in S$, mit $d(q, a) \le d(q, x)$ f\"ur alle $x \in S$
+     \item Item $a \in S$, with $d(q, a) \le d(q, x)$ for all $x \in S$
     \end{itemize}
  \end{block}
 \end{frame}
 
-\subsection{Anwendung}
+\subsection{Use}
 \begin{frame}
- \frametitle{Anwendung}
+ \frametitle{Use}
  \begin{itemize}
- \item Mustererkennung
- \item Statistischen Klassifikationsverfahren
- \item Bildbearbeitung
- \item Kodierungstheorie
- \item Datenkompression
- \item Empfehlungssystemen
+ \item Pattern recognition
+ \item Statistical classification
+ \item Image editing
+ \item Coding theory
+ \item Data compression
+ \item Recommender system
  \item $\dots$
 \end{itemize}
 \end{frame}
 
-\section{L\"osungen}
+\section{Solutions}
 
-\subsection{Vollsuche}
+\subsection{Full Search}
 \begin{frame}
- \frametitle{Vollsuche}
+ \frametitle{Full Search}
  \begin{itemize}
-  \item Berechne $d(q, x)$ f\"ur alle $x \in S$
+  \item Calculate $d(q, x)$ for all $x \in S$
   \pause
-  \item W\"ahle $a \in S$, mit $d(q, a) \le d(q, x)$ f\"ur alle $x \in S$
+  \item Return $a \in S$, with $d(q, a) \le d(q, x)$ for all $x \in S$
  \end{itemize}
 \end{frame}
 
 % Beispiel1 Datenpunkte
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}<handout:0>{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     $\mathbb{U} = \mathbb{R}^2$
-    \begin{block}{Datenpunkte}
+    \begin{block}{Items}
       $x_1 = (3, 3)$\\
       $x_2 = (-1, 2)$\\
       $x_3 = (-4, -4)$\\
@@ -87,13 +87,13 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
@@ -105,18 +105,18 @@
 \end{frame}
 
 % Beispiel1 Anfragepunkt
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     $\mathbb{U} = \mathbb{R}^2$
-    \begin{block}{Datenpunkte}
+    \begin{block}{Items}
       $x_1 = (3, 3)$\\
       $x_2 = (-1, 2)$\\
       $x_3 = (-4, -4)$\\
       $x_4 = (0, -1)$\\
       $x_5 = (4, -3)$
     \end{block}
-    \begin{block}{Anfragepunkt}
+    \begin{block}{Query item}
       $q = (2, 1)$
     \end{block}
   \end{column}
@@ -131,21 +131,21 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -153,10 +153,10 @@
 \end{frame}
 
 % Beispiel1 Abstand x1
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}<handout:0>{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Ergebnis}
+    \begin{block}{Result}
       $d(q, x_1) \approx 2.236$
     \end{block}
   \end{column}
@@ -171,23 +171,23 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -195,10 +195,10 @@
 \end{frame}
 
 % Beispiel1 Abstand x2
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}<handout:0>{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Ergebnis}
+    \begin{block}{Result}
       $d(q, x_1) \approx 2.236$\\
       $d(q, x_2) \approx 3.162$
     \end{block}
@@ -214,24 +214,24 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -239,10 +239,10 @@
 \end{frame}
 
 % Beispiel1 Abstand x3
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}<handout:0>{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Ergebnis}
+    \begin{block}{Result}
       $d(q, x_1) \approx 2.236$\\
       $d(q, x_2) \approx 3.162$\\
       $d(q, x_3) \approx 7.810$
@@ -259,25 +259,25 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-4,-4);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -285,10 +285,10 @@
 \end{frame}
 
 % Beispiel1 Abstand x4
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}<handout:0>{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Ergebnis}
+    \begin{block}{Result}
       $d(q, x_1) \approx 2.236$\\
       $d(q, x_2) \approx 3.162$\\
       $d(q, x_3) \approx 7.810$\\
@@ -306,26 +306,26 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -333,10 +333,10 @@
 \end{frame}
 
 % Beispiel1 Abstand x5
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}<handout:0>{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Ergebnis}
+    \begin{block}{Result}
       $d(q, x_1) \approx 2.236$\\
       $d(q, x_2) \approx 3.162$\\
       $d(q, x_3) \approx 7.810$\\
@@ -355,27 +355,27 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (4,-3);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -383,10 +383,10 @@
 \end{frame}
 
 % Beispiel1 Ergebnis
-\begin{frame}{Vollsuche}{Beispiel}
+\begin{frame}{Full Search}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Ergebnis}
+    \begin{block}{Result}
       \textcolor{green}{$d(q, x_1) \approx 2.236$}\\
       $d(q, x_2) \approx 3.162$\\
       $d(q, x_3) \approx 7.810$\\
@@ -405,27 +405,27 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=green, line width=0.5pt, solid] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (4,-3);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -433,38 +433,38 @@
 \end{frame}
 
 % Vor- und Nachteile
-\begin{frame}{Vollsuche}{Vor- und Nachteile}
- \begin{block}{Vorteile}
+\begin{frame}{Full Search}{Advantages and disadvantages}
+ \begin{block}{Advantages}
   \begin{itemize}
-   \item Einfache Implementierung
+   \item Easy implementation
    \pause
-   \item Funktioniert auch in Nicht-Metrischen R\"aumen
+   \item Works in none metric spaces
   \end{itemize}
  \end{block}
  \pause
- \begin{block}{Nachteile}
+ \begin{block}{Disadvantages}
   \begin{itemize}
-   \item Hohe Laufzeiten gerade bei großen Datenmengen und h\"oherdimensionalen R\"aumen
+   \item Large runtime on big data sets and in higher multidimensional spaces
   \end{itemize}
  \end{block}
 \end{frame}
 
-\begin{frame}{Metrik}
-  Sei $X$ ein Menge. Unter einer \textit{Metrik} auf $X$ versteht man eine Abbildung\\
+\begin{frame}{Metric}
+  Given a set $X$. A \textit{Metric} on $X$ is a function\\
   $d:X \times X \to \mathbb{R}$, $(x, y) \mapsto d(x, y)$\\
-  mit folgenden Eigenschaften:
+  with:
  \begin{enumerate}
  \pause
-  \item $d(x, y) = 0$ genau dann, wenn $x=y$.
+  \item $d(x, y) = 0$ exactly when $x=y$.
   \pause
-  \item Symmetrie: F\"ur alle $x, y \in X$ gilt $d(x, y) = d(y, x)$.
+  \item Symmetry: For all $x, y \in X$ is true $d(x, y) = d(y, x)$.
   \pause
-  \item Dreiecksungleichung: F\"ur alle $x, y, z \in X$ gilt $d(x, z) \le d(x, y) + d(y,z)$
+  \item Triangle inequality: For all $x, y, z \in X$ is true $d(x, z) \le d(x, y) + d(y,z)$
  \end{enumerate}
  \flushright{\tiny{[Forster, 2006]}}
 \end{frame}
 
-\begin{frame}{Dreiecksungleichung}
+\begin{frame}{Triangle inequality}
   \begin{center}
     \begin{tikzpicture}[%
     scale=1.0,
@@ -482,7 +482,7 @@
     \end{tikzpicture}
   \end{center}
 
- \textbf{Lemma} F\"ur beliebige $q, s, p \in \mathbb{U}$, $r \in \mathbb{R}$ und $P \subset \mathbb{U}$ gilt:
+ \textbf{Lemma} For any $q, s, p \in \mathbb{U}$, $r \in \mathbb{R}$ and $P \subset \mathbb{U}$ is true:
  \begin{enumerate}
  \pause
   \item \label{ineq:1}$|d(p, q) - d(p, s)| \le d(q, s) \le d(p, q) + d(p, s)$
@@ -496,42 +496,42 @@
  \flushright{\tiny{[Clarkson, 2005]}}
 \end{frame}
 
-\subsection{Orchard’s Algorithmus}
-\begin{frame}{Orchard’s Algorithmus}
+\subsection{Orchards Algorithm}
+\begin{frame}{Orchards Algorithm}
  \begin{itemize}
-  \item Erstelle Liste f\"ur alle Punkte $p \in S$ mit allen Punkten $x \in S$, aufsteigend nach ihrer Distanz
+  \item Create a list for every item $p \in S$ with all items $x \in S$, ordered ascending to the distance
   \pause
-  \item W\"ahle zufälligen Punkt $c \in S$ als initialen Kandidaten
+  \item Choose random item $c \in S$ as initial candidate
   \pause
-  \item Berechne $d(c, q)$
+  \item Calculate $d(c, q)$
   \pause
-  \item Gehe Liste von $c$ entlange
+  \item Go along the list of $c$
   \pause
-  \item Wenn aktueller Punkt näher an $q$ als $c$, nimm aktuellen Punkt für $c$
+  \item If the current item has smaller distance to $q$ as $c$, choose current item as $c$
   \pause
-  \item Abbruch, wenn
+  \item Abort, if
     \begin{itemize}
-      \item die Liste komplett abgelaufen ist, oder
-      \item $d(c, s) > 2 \cdot d(c, q)$ f\"ur aktuelles Element aus der Liste (Dreiecksungleichung~\ref{ineq:4})
+      \item at the end of the current list or
+      \item $d(c, s) > 2 \cdot d(c, q)$ for the current item of the list (Triangle inequality~\ref{ineq:4})
     \end{itemize}
    \pause
-   \item Sonst ist $c$ nächster Nachbar
+   \item Else $c$ is nearest neighbour
  \end{itemize}
 \end{frame}
 
 %Beispiel2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     $\mathbb{U} = \mathbb{R}^2$
-    \begin{block}{Datenpunkte}
+    \begin{block}{Items}
       $x_1 = (3, 3)$\\
       $x_2 = (-1, 2)$\\
       $x_3 = (-4, -4)$\\
       $x_4 = (0, -1)$\\
       $x_5 = (4, -3)$
     \end{block}
-    \begin{block}{Anfragepunkt}
+    \begin{block}{Query item}
       $q = (2, 1)$
     \end{block}
   \end{column}
@@ -546,21 +546,21 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -568,8 +568,8 @@
 \end{frame}
 
 %Beispiel2 Abstand
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
-  \begin{block}{Abst\"ande}
+\begin{frame}{Orchards Algorithm}{Example}
+  \begin{block}{Distances}
   \begin{center}
     \begin{tabular}{r|ccccc}
       & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$\\
@@ -585,10 +585,10 @@
 \end{frame}
 
 %Beispiel2 Listen
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    \begin{block}{Listen}
+    \begin{block}{Lists}
     $L(x_1) = \{x_2, x_4, x_5, x_3\}$\\
     $L(x_2) = \{x_4, x_1, x_3, x_5\}$\\
     $L(x_3) = \{x_4, x_2, x_5, x_1\}$\\
@@ -607,7 +607,7 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (0,-1);
@@ -618,13 +618,13 @@
       \draw[color=gray, line width=0.5pt, dashed] (-4,-4) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (-4,-4) -- (4,-3);
       \draw[color=gray, line width=0.5pt, dashed] (0,-1) -- (4,-3);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
@@ -635,12 +635,11 @@
  \end{columns}
 \end{frame}
 
-%Beispiel2 Wähle c=x_3 und s=x_4
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_3$ und $s:= x_4$
+     \item Set $c:=x_3$ and $s:= x_4$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -654,13 +653,13 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (6.708);
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (-4,-4) circle (15.62);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
@@ -668,15 +667,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=white] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -684,12 +683,12 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_3 und s=x_4
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_3$ und $s:= x_4$
-     \item Da $7.810 \approx d(c, q) > d(s, q) \approx 2.828$, setze $c:=s$
+     \item Set $c:=x_3$ and $s:= x_4$
+     \item As $7.810 \approx d(c, q) > d(s, q) \approx 2.828$, set $c:=s$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -703,17 +702,17 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (6.708);
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (-4,-4) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (-4,-4) circle (15.62);
       \draw [color=yellow, line width=0.5pt, solid] (-4,-4) circle (15.62);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
@@ -721,15 +720,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=white] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -737,11 +736,11 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_4$ und $s:= x_2$
+     \item Set $c:=x_4$ and $s:= x_2$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -755,13 +754,13 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -769,15 +768,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -785,12 +784,12 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_4$ und $s:= x_2$
-     \item Da $2.828 \approx d(c, q) < d(s, q) \approx 3.162$, kein neues $c$
+     \item Set $c:=x_4$ and $s:= x_2$
+     \item As $2.828 \approx d(c, q) < d(s, q) \approx 3.162$, no new $c$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -804,15 +803,15 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -820,15 +819,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -836,13 +835,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_4$ und $s:= x_2$
-     \item Da $2.828 \approx d(c, q) < d(s, q) \approx 3.162$, kein neues $c$
-     \item Da $3.162 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, kein Abbruch
+     \item Set $c:=x_4$ and $s:= x_2$
+     \item As $2.828 \approx d(c, q) < d(s, q) \approx 3.162$, no new $c$
+     \item As $3.162 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, no abort
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -856,16 +855,16 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (-1,2) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -873,15 +872,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -889,11 +888,11 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_5
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:= x_5$
+     \item Set $s:= x_5$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -907,12 +906,12 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
@@ -920,15 +919,15 @@
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=white] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -936,12 +935,12 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_5
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:= x_5$
-     \item Da $2.828 \approx d(c, q) < d(s, q) \approx 4.472$, kein neues $c$
+     \item Set $s:= x_5$
+     \item As $2.828 \approx d(c, q) < d(s, q) \approx 4.472$, no new $c$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -955,15 +954,15 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (4,-3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
@@ -971,15 +970,15 @@
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=white] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -987,13 +986,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_5
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:= x_5$
-     \item Da $2.828 \approx d(c, q) < d(s, q) \approx 4.472$, kein neues $c$
-     \item Da $4.472 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, kein Abbruch
+     \item Set $s:= x_5$
+     \item As $2.828 \approx d(c, q) < d(s, q) \approx 4.472$, no new $c$
+     \item As $4.472 \approx d(c, s) < 2 \cdot d(c, q) \approx 5.656$, no abort
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1007,16 +1006,16 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
       \draw [color=yellow, line width=0.5pt, solid] (0,-1) circle (5.656);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (4,-3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
@@ -1024,15 +1023,15 @@
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=white] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1040,11 +1039,11 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_1
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:= x_1$
+     \item Set $s:= x_1$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1058,11 +1057,11 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1070,15 +1069,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1086,12 +1085,12 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_4 und s=x_1
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:= x_1$
-     \item Da $2.828 \approx d(c, q) > d(s, q) \approx 2.236$, setze $c:=s$
+     \item Set $s:= x_1$
+     \item As $2.828 \approx d(c, q) > d(s, q) \approx 2.236$, set $c:=s$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1105,14 +1104,14 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (3.162);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (4.472);
       \draw [color=gray, line width=0.5pt, solid] (0,-1) circle (5);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1120,15 +1119,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=yellow] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1136,11 +1135,11 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:= x_1$ und $s:=x_2$
+     \item Set $c:= x_1$ and $s:=x_2$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1154,13 +1153,13 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=yellow] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1168,15 +1167,15 @@
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1184,12 +1183,12 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:= x_1$ und $s:=x_2$
-     \item Da $2.236 \approx d(c, q) < d(s, q) \approx 3.162$, kein neues $c$
+     \item Set $c:= x_1$ and $s:=x_2$
+     \item As $2.236 \approx d(c, q) < d(s, q) \approx 3.162$, no new $c$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1203,16 +1202,16 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=yellow] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1220,15 +1219,15 @@
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1236,13 +1235,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_2
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:= x_1$ und $s:=x_2$
-     \item Da $2.236 \approx d(c, q) < d(s, q) \approx 3.162$, kein neues $c$
-     \item Da $4.123 \approx d(c, s) < 2 \cdot d(c, q) \approx 4.472$, kein Abbruch
+     \item Set $c:= x_1$ and $s:=x_2$
+     \item As $2.236 \approx d(c, q) < d(s, q) \approx 3.162$, no new $c$
+     \item As $4.123 \approx d(c, s) < 2 \cdot d(c, q) \approx 4.472$, no abort
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1256,17 +1255,17 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (-1,2);
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (-1,2);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=yellow] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1274,15 +1273,15 @@
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1290,11 +1289,11 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_4
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_4$
+     \item Set $s:=x_4$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1308,13 +1307,13 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=yellow] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1322,15 +1321,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=white] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1338,12 +1337,12 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_4
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}<handout:0>{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_4$
-     \item Da $2.236 \approx d(c, q) < d(s, q) \approx 2.828$, kein neues $c$
+     \item Set $s:=x_4$
+     \item As $2.236 \approx d(c, q) < d(s, q) \approx 2.828$, no new $c$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1357,16 +1356,16 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=yellow] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1374,15 +1373,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=white] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1390,13 +1389,13 @@
 \end{frame}
 
 %Beispiel2 Wähle c=x_1 und s=x_4
-\begin{frame}{Orchard’s Algorithmus}{Beispiel}
+\begin{frame}{Orchards Algorithm}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_4$
-     \item Da $2.236 \approx d(c, q) < d(s, q) \approx 2.828$, kein neues $c$
-     \item Da $5 \approx d(c, s) > 2 \cdot d(c, q) \approx 4.472$, \textcolor{green}{Abbruch}
+     \item Set $s:=x_4$
+     \item As $2.236 \approx d(c, q) < d(s, q) \approx 2.828$, no new $c$
+     \item As $5 \approx d(c, s) > 2 \cdot d(c, q) \approx 4.472$, \textcolor{green}{abort}
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1410,17 +1409,17 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (4.123);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (5);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (3,3) circle (9.899);
       \draw [color=yellow, line width=0.5pt, solid] (3,3) circle (4.472);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (3,3);
       \draw[color=gray, line width=0.5pt, dashed] (2,1) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=yellow] (3,3) circle (2.1pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
@@ -1428,15 +1427,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=white] (0,-1) circle (2.1pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1444,64 +1443,64 @@
 \end{frame}
 
 % Vor- und Nachteile
-\begin{frame}{Orchard’s Algorithmus}{Vor- und Nachteile}
- \begin{block}{Vorteile}
+\begin{frame}{Orchards Algorithm}{Advantages and disadvantages}
+ \begin{block}{Advantages}
   \begin{itemize}
-   \item Schneller als Vollsuche
+   \item Faster as Full Search
   \end{itemize}
  \end{block}
  \pause
- \begin{block}{Nachteile}
+ \begin{block}{Disadvantages}
   \begin{itemize}
-   \item Preprocessing kostet viel Speicher und Rechenaufwand
+   \item Preprocessing needs large memory and runtime
   \end{itemize}
  \end{block}
  \pause
- \begin{block}{Verfeinerung}
+ \begin{block}{Improvement}
   \begin{itemize}
-   \item Schon durchwanderte Punkte sollten übersprungen werden
+   \item Use MarkBits to ensure that no distance is calculated twice
   \end{itemize}
  \end{block}
 \end{frame}
 
-\subsection{Annulus Verfahren}
-\begin{frame}{Annulus Verfahren}
+\subsection{Annulus Method}
+\begin{frame}{Annulus Method}
  \begin{itemize}
-  \item Erstelle eine Liste für beliebigen Punkt $p^* \in S$ mit allen Punkten $x \in S$, aufsteigend nach ihrer Distanz
+  \item Create a list for a random item $p^* \in S$ with all items $x \in S$, ordered ascending to the distance
   \pause
-  \item Wähle beliebigen Kandidaten $c \in S$
+  \item Choose random item $c \in S$
   \pause
-  \item Bewege dich alternierend von $p^*$ weg und wieder hin
+  \item Walk alternating away from $p^*$ and back to it in the list
   \pause
-  \item Wenn aktueller Punkt $s$ näher an $q$ als $c$, setze $c:= s$
+  \item If current item $s$ has smaller distance to $q$ as $c$, set $c:= s$
   \pause
-  \item Aktueller Punkt $s$ unter $c$:
+  \item Current item $s$ is under $c$:
   \begin{itemize}
-   \item Wenn $d(p^*, s) < d(p^*, q) - d(c, q)$, können alle Punkte unter $s$ ignoriert werden (Dreiecksungleichung~\ref{ineq:3})
+   \item If $d(p^*, s) < d(p^*, q) - d(c, q)$, ignore all items under $s$ (Triangle inequality~\ref{ineq:3})
   \end{itemize}
   \pause
-  \item Aktueller Punkt $s$ über $c$:
+  \item Current item $s$ is above $c$:
   \begin{itemize}
-   \item Wenn $d(p^*, s) > d(p*, q) + d(c, q)$, können alle Punkte über $s$ ignoriert werden (Dreiecksungleichung~\ref{ineq:3})
+   \item If $d(p^*, s) > d(p*, q) + d(c, q)$, ignore all items above $s$ (Triangle inequality~\ref{ineq:3})
   \end{itemize}
   \pause
-  \item Wenn ganze Liste durchlaufen, ist $c$ nächster Nachbar
+  \item $c$ is the nearest neighbour if the entire list is traversed
  \end{itemize}
 \end{frame}
 
 %Beispiel3
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     $\mathbb{U} = \mathbb{R}^2$
-    \begin{block}{Datenpunkte}
+    \begin{block}{Items}
       $x_1 = (3, 3)$\\
       $x_2 = (-1, 2)$\\
       $x_3 = (-4, -4)$\\
       $x_4 = (0, -1)$\\
       $x_5 = (4, -3)$
     \end{block}
-    \begin{block}{Anfragepunkt}
+    \begin{block}{Query item}
       $q = (2, 1)$
     \end{block}
   \end{column}
@@ -1516,21 +1515,21 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \filldraw [color={rgb:red,0;green,0;blue,255}] (3,3) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-1,2) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (-4,-4) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (0,-1) circle (2.5pt );
       \filldraw [color={rgb:red,0;green,0;blue,255}] (4,-3) circle (2.5pt );
-      
+
       \filldraw [color={rgb:red,255;green,0;blue,0}] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1538,8 +1537,8 @@
 \end{frame}
 
 %Beispiel3 Abstand
-\begin{frame}{Annulus Verfahren}{Beispiel}
-  \begin{block}{Abst\"ande}
+\begin{frame}{Annulus Method}{Example}
+  \begin{block}{Distances}
   \begin{center}
     \begin{tabular}{r|ccccc}
       & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$\\
@@ -1551,11 +1550,11 @@
 \end{frame}
 
 %Beispiel3 Listen
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
-    $p^*:=x_5$ mit $d(p^*, q) \approx 4.472$
-    \begin{block}{Liste}
+    $p^*:=x_5$ with $d(p^*, q) \approx 4.472$
+    \begin{block}{List}
     $L(x_5) = \{x_5, x_4, x_1, x_2, x_3\}$\\
     \end{block}
   \end{column}
@@ -1570,19 +1569,19 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (4,-3);
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (-1,2);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=blue] (-4,-4) circle (2.5pt );
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
@@ -1594,11 +1593,11 @@
 \end{frame}
 
 %Beispiel3 c:=x_2
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}<handout:0>{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_2$ mit $d(c,q) \approx 3.162$
+     \item Set $c:=x_2$ with $d(c,q) \approx 3.162$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1612,62 +1611,12 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
-      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
-      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
-      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
-      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
-      \filldraw [color=blue] (3,3) circle (2.5pt );
-      \filldraw [color=blue] (-1,2) circle (2.5pt );
-      \filldraw [color=white] (-1,2) circle (2.1pt );
-      \filldraw [color=blue] (-4,-4) circle (2.5pt );
-      \filldraw [color=blue] (0,-1) circle (2.5pt );
-      \filldraw [color=blue] (4,-3) circle (2.5pt );
-      \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
-      \filldraw [color=red] (2,1) circle (2.5pt );
-      
-      \node at (3.3,2.7) {$x_1$};
-      \node at (-0.7,1.7) {$x_2$};
-      \node at (-3.7,-4.3) {$x_3$};
-      \node at (0.3,-1.3) {$x_4$};
-      \node at (4.3,-3.3) {$x_5$};
-      
-      \node at (2.3,0.7) {$q$};
-      \end{tikzpicture}
-  \end{column}
- \end{columns}
-\end{frame}
 
-%Beispiel3 c:=x_2
-\begin{frame}{Annulus Verfahren}{Beispiel}
- \begin{columns}[T]
-  \begin{column}{.35\textwidth}
-    \begin{itemize}
-     \item Setze $c:=x_2$ mit $d(c, q) \approx 3.162$
-     \item Setze $s:=x_3$ mit $d(s, q) \approx 7.810$
-    \end{itemize}
-  \end{column}
-  \begin{column}{.60\textwidth}
-     \begin{tikzpicture}[%
-      scale=0.6,
-      ]
-      \clip (-5.0,-5.0) rectangle (5.0,5.0);
-      \draw [help lines] (0,0) grid (6,5);
-      \draw [help lines] (-6,0) grid (0,5);
-      \draw [help lines] (0,-6) grid (6,0);
-      \draw [help lines] (-6,-6) grid (0,0);
-      \draw [color=black,->] (-5.0,0) -- (5.0,0);
-      \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
-      \draw[color=darkgray, line width=1.0pt, dashed, ->] (-1,2) -- (-4,-4);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -1675,15 +1624,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1691,13 +1640,12 @@
 \end{frame}
 
 %Beispiel3 c:=x_2
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}<handout:0>{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_2$ mit $d(c, q) \approx 3.162$
-     \item Setze $s:=x_3$ mit $d(s, q) \approx 7.810$
-     \item $8.062 \approx d(p^*, s) > d(p^*, q) + d(c,q) \approx 7.634 \Rightarrow$ alle Knoten über $x_3$ ignorieren
+     \item Set $c:=x_2$ with $d(c, q) \approx 3.162$
+     \item Set $s:=x_3$ with $d(s, q) \approx 7.810$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1711,18 +1659,69 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (-1,2) -- (-4,-4);
-      
+
+      \filldraw [color=blue] (3,3) circle (2.5pt );
+      \filldraw [color=blue] (-1,2) circle (2.5pt );
+      \filldraw [color=white] (-1,2) circle (2.1pt );
+      \filldraw [color=blue] (-4,-4) circle (2.5pt );
+      \filldraw [color=blue] (0,-1) circle (2.5pt );
+      \filldraw [color=blue] (4,-3) circle (2.5pt );
+      \filldraw [color=yellow] (4,-3) circle (2.1pt );
+
+      \filldraw [color=red] (2,1) circle (2.5pt );
+
+      \node at (3.3,2.7) {$x_1$};
+      \node at (-0.7,1.7) {$x_2$};
+      \node at (-3.7,-4.3) {$x_3$};
+      \node at (0.3,-1.3) {$x_4$};
+      \node at (4.3,-3.3) {$x_5$};
+
+      \node at (2.3,0.7) {$q$};
+      \end{tikzpicture}
+  \end{column}
+ \end{columns}
+\end{frame}
+
+%Beispiel3 c:=x_2
+\begin{frame}{Annulus Method}{Example}
+ \begin{columns}[T]
+  \begin{column}{.35\textwidth}
+    \begin{itemize}
+     \item Set $c:=x_2$ with $d(c, q) \approx 3.162$
+     \item Set $s:=x_3$ with $d(s, q) \approx 7.810$
+     \item $8.062 \approx d(p^*, s) > d(p^*, q) + d(c,q) \approx 7.634 \Rightarrow$ ignore items above $x_3$
+    \end{itemize}
+  \end{column}
+  \begin{column}{.60\textwidth}
+     \begin{tikzpicture}[%
+      scale=0.6,
+      ]
+      \clip (-5.0,-5.0) rectangle (5.0,5.0);
+      \draw [help lines] (0,0) grid (6,5);
+      \draw [help lines] (-6,0) grid (0,5);
+      \draw [help lines] (0,-6) grid (6,0);
+      \draw [help lines] (-6,-6) grid (0,0);
+      \draw [color=black,->] (-5.0,0) -- (5.0,0);
+      \draw [color=black,->] (0,-5.0) -- (0,5.0);
+
+      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
+      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
+      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
+      \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
+
+      \draw[color=darkgray, line width=1.0pt, dashed, ->] (-1,2) -- (-4,-4);
+
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (-4,-4);
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (2,1);
       \draw[color=gray, line width=0.5pt, dashed] (-1,2) -- (2,1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -1730,15 +1729,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1746,11 +1745,11 @@
 \end{frame}
 
 %Beispiel3 c:=x_2
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}<handout:0>{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_1$ mit $d(s, q) \approx 2.236$
+     \item Set $s:=x_1$ with $d(s, q) \approx 2.236$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1764,15 +1763,15 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (-1,2) -- (-4,-4);
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (-4,-4) -- (3,3);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -1780,15 +1779,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1796,12 +1795,12 @@
 \end{frame}
 
 %Beispiel3 c:=x_2
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_1$ mit $d(s, q) \approx 2.236$
-     \item Da $d(s, q) < d(c, q)$, setze $c:=s$
+     \item Set $s:=x_1$ with $d(s, q) \approx 2.236$
+     \item As $d(s, q) < d(c, q)$, set $c:=s$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1815,18 +1814,18 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (-1,2) -- (-4,-4);
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (-4,-4) -- (3,3);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (2,1);
       \draw[color=gray, line width=0.5pt, dashed] (-1,2) -- (2,1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=blue] (-1,2) circle (2.5pt );
       \filldraw [color=white] (-1,2) circle (2.1pt );
@@ -1834,15 +1833,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1850,11 +1849,11 @@
 \end{frame}
 
 %Beispiel3 c:=x_1
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}<handout:0>{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_1$ mit $d(s, q) \approx 2.236$
+     \item Set $c:=x_1$ with $d(c, q) \approx 2.236$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1868,12 +1867,12 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=gray] (-1,2) circle (2.5pt );
@@ -1881,15 +1880,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1897,12 +1896,12 @@
 \end{frame}
 
 %Beispiel3 c:=x_1
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}<handout:0>{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_1$ mit $d(c, q) \approx 2.236$
-     \item Setze $s:=x_4$ mit $d(s, q) \approx 2.828$
+     \item Set $c:=x_1$ with $d(c, q) \approx 2.236$
+     \item Set $s:=x_4$ with $d(s, q) \approx 2.828$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1916,14 +1915,14 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (3,3) -- (0,-1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=gray] (-1,2) circle (2.5pt );
@@ -1931,15 +1930,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -1947,13 +1946,13 @@
 \end{frame}
 
 %Beispiel3 c:=x_1
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $c:=x_1$ mit $d(c, q) \approx 2.236$
-     \item Setze $s:=x_4$ mit $d(s, q) \approx 2.828$
-     \item $4.472 \approx d(p^*, s) > d(p^*, q) - d(c,q) \approx 2.236 \Rightarrow$ keine Knoten ignorieren
+     \item Set $c:=x_1$ with $d(c, q) \approx 2.236$
+     \item Set $s:=x_4$ with $d(s, q) \approx 2.828$
+     \item $4.472 \approx d(p^*, s) > d(p^*, q) - d(c,q) \approx 2.236 \Rightarrow$ ignore no items
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -1967,18 +1966,18 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (3,3) -- (0,-1);
-      
+
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (0,-1);
       \draw[color=gray, line width=0.5pt, dashed] (4,-3) -- (2,1);
       \draw[color=gray, line width=0.5pt, dashed] (3,3) -- (2,1);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=gray] (-1,2) circle (2.5pt );
@@ -1986,15 +1985,15 @@
       \filldraw [color=blue] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -2002,11 +2001,11 @@
 \end{frame}
 
 %Beispiel3 c:=x_1
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}<handout:0>{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_5$ mit $d(s, q) \approx 4.472 < 2.236 \approx d(c, q)$
+     \item Set $s:=x_5$ with $d(s, q) \approx 4.472 < 2.236 \approx d(c, q)$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -2020,15 +2019,15 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (3,3) -- (0,-1);
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (0,-1) -- (4,-3);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=gray] (-1,2) circle (2.5pt );
@@ -2036,15 +2035,15 @@
       \filldraw [color=gray] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -2052,12 +2051,12 @@
 \end{frame}
 
 %Beispiel3 c:=x_1
-\begin{frame}{Annulus Verfahren}{Beispiel}
+\begin{frame}{Annulus Method}{Example}
  \begin{columns}[T]
   \begin{column}{.35\textwidth}
     \begin{itemize}
-     \item Setze $s:=x_5$ mit $d(s, q) \approx 4.472 < 2.236 \approx d(c, q)$
-     \item Da Liste am Ende, $c = x_1$ nächster Nachbar von $q$
+     \item Set $s:=x_5$ with $d(s, q) \approx 4.472 < 2.236 \approx d(c, q)$
+     \item End of list, $c = x_1$ nearest neighbour of $q$
     \end{itemize}
   \end{column}
   \begin{column}{.60\textwidth}
@@ -2071,15 +2070,15 @@
       \draw [help lines] (-6,-6) grid (0,0);
       \draw [color=black,->] (-5.0,0) -- (5.0,0);
       \draw [color=black,->] (0,-5.0) -- (0,5.0);
-      
+
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (6.083);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (7.071);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (8.062);
       \draw [color=gray, line width=0.5pt, solid] (4,-3) circle (4.472);
-      
+
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (3,3) -- (0,-1);
       \draw[color=darkgray, line width=1.0pt, dashed, ->] (0,-1) -- (4,-3);
-      
+
       \filldraw [color=blue] (3,3) circle (2.5pt );
       \filldraw [color=white] (3,3) circle (2.1pt );
       \filldraw [color=gray] (-1,2) circle (2.5pt );
@@ -2087,15 +2086,15 @@
       \filldraw [color=gray] (0,-1) circle (2.5pt );
       \filldraw [color=blue] (4,-3) circle (2.5pt );
       \filldraw [color=yellow] (4,-3) circle (2.1pt );
-      
+
       \filldraw [color=red] (2,1) circle (2.5pt );
-      
+
       \node at (3.3,2.7) {$x_1$};
       \node at (-0.7,1.7) {$x_2$};
       \node at (-3.7,-4.3) {$x_3$};
       \node at (0.3,-1.3) {$x_4$};
       \node at (4.3,-3.3) {$x_5$};
-      
+
       \node at (2.3,0.7) {$q$};
       \end{tikzpicture}
   \end{column}
@@ -2103,11 +2102,11 @@
 \end{frame}
 
 % Vor- und Nachteile
-\begin{frame}{Annulus Verfahren}{Vor- und Nachteile}
- \begin{block}{Vorteile}
+\begin{frame}{Annulus Method}{Advantages and disadvantages}
+ \begin{block}{Advantages}
   \begin{itemize}
-   \item Schneller als Vollsuche
-   \item Weniger Speicherverbrauch als Orchard’s Algorithmus
+   \item Faster as Full Search
+   \item Less memory usage than Orchards Algorithm
   \end{itemize}
  \end{block}
 \end{frame}
@@ -2115,51 +2114,52 @@
 \subsection{AESA}
 \begin{frame}{AESA}{Approximating and Eliminating Search Algorithm}
  \begin{itemize}
-  \item Erstelle Matrix aus allen Abständen $d(x, y)$, mit $x, y \in S$
+  \item Create matrix with all distances $d(x, y)$, with $x, y \in S$
   \pause
-  \item Jeder Punkt ist immer in einem der drei Statusse
+  \item Every item is always in one status
   \begin{itemize}
-   \item \textit{Bekannt}, $d(x, q)$ ist bekannt
+   \item \textit{Known}, $d(x, q)$ is known
    \pause
-   \item \textit{Unbekannt}, nur $d_P(x, q)$ ist bekannt
+   \item \textit{Unknown}, only $d_P(x, q)$ is known
    \pause
-   \item \textit{Abgelehnt}, $d_P(x, q)$ ist größer als aktuell kleinster Abstand $r$
+   \item \textit{Rejected}, $d_P(x, q)$ is bigger as smallest known distance $r$
   \end{itemize}
   \pause
-  \item Alle $x \in S$ sind zum Anfang $Unbekannt$ und $d_P(x, q) = \infty$
+  \item All $x \in S$ are \textit{Unknown} and $d_P(x, q) = -\infty$
   \pause
-  \item Wiederhole bis alle $x \in S$ \textit{Bekannt} oder \textit{Abgelehnt}
+  \item Repeat until all $x \in S$ \textit{Known} oder \textit{Rejected}
   \begin{enumerate}
-   \item Wähle \textit{Unbekannt}-en Punkt $x \in S$ mit kleinstem $d_P(x, q)$
+   \item Choose \textit{Unknown} item $x \in S$ with smallest $d_P(x, q)$
    \pause
-   \item Berechne $d(x,q)$, so das $x$ \textit{Bekannt} wird
+   \item Calculate $d(x,q)$, so that $x$ gets \textit{Known}
    \pause
-   \item Aktuallisiere den kleinsten Abstand $r$
+   \item Refresh the smallest known distance $r$
    \pause
-   \item Setze $P:= P \cup \{x\}$, aktuallisiere $d_P(x', q)$, wenn $x'$ \textit{Unbekannt} und markiere $x'$ \textit{Abgelehnt}, wenn $d_P(x', q) > r$
+   \item Set $P:= P \cup \{x\}$, refresh $d_P(x', q)$, if $x'$ is \textit{Unknown} mark $x'$ as \textit{Rejected}, if
+    $d_P(x', q) > r$
   \end{enumerate}
  \end{itemize}
 \end{frame}
 
 \begin{frame}{LAESA}{\textit{Linear} Approximating and Eliminating Search Algorithm}
  \begin{itemize}
-  \item Arbeitet mit einer Menge von \textit{pivot}-Elementen, anstelle einer Matrix
+  \item Works with a set of \textit{pivot} items instead of a matrix
   \pause
-  \item Läuft am besten, wenn die \textit{pivot}-Elemente stark separiert sind
+  \item Works best if \textit{pivot} items are strongly separated
  \end{itemize}
 \end{frame}
 
-\section{Ausblick}
-\begin{frame}{Ausblick}
+\section{Outlook}
+\begin{frame}{Outlook}
  \begin{itemize}
-  \item Metrikbäume
+  \item Metric trees
   \item \dots
  \end{itemize}
 \end{frame}
 
-\section{Quellen}
+\section{Resources}
 \begin{frame}
- \frametitle{Quellen}
+ \frametitle{Resources}
  \begin{itemize}
   \item Otto Forster, 2006, \textit{Analysis 2}, Friedr. Vieweg \& Sohn Verlag
   \item Kenneth L. Clarkson, 2005, \textit{Nearest-Neighbor Searching and Metric Space Dimensions}, http://kenclarkson.org/nn\_survey/p.pdf
